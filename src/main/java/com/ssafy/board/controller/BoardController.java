@@ -69,6 +69,18 @@ public class BoardController {
             return exceptionHandling(e);
         }
     }
+    @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제합니다.")
+    @ApiResponses({@ApiResponse(code=200, message = "게시글 삭제 OK"), @ApiResponse(code=500, message = "서버에러")})
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<?> boardDelete(@PathVariable("boardId") int boardId){
+        logger.debug("delete boardId :::" + boardId);
+        try{
+            boardService.boardDelete(boardId);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();

@@ -13,7 +13,7 @@ public interface BoardMapper {
     // 게시글 수정
     BoardDto boardUpdate(BoardDto boardDto) throws SQLException;
     // 게시글 삭제
-    void boardDelete(String boardId) throws SQLException;
+    void boardDelete(int boardId) throws SQLException;
     // 공지사항 목록 보기
     List<BoardDto> boardNoticeList() throws Exception;
     // 게시글 목록 보기

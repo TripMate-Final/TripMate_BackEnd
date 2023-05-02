@@ -32,4 +32,11 @@
 		insert into boards(board_title, user_id, board_date, board_content, board_type)
 		values(#{boardTitle}, #{userId}, now(), #{boardContent}, #{boardType});
 	</insert>
+
+	<!-- 게시글 삭제 -->
+	<delete id="boardDelete" parameterType="int">
+		delete from boards
+		where board_id = #{boardId};
+	</delete>
+
 </mapper>

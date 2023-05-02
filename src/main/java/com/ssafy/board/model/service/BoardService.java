@@ -11,7 +11,7 @@ public interface BoardService {
     // 게시글 수정
     BoardDto boardUpdate(BoardDto boardDto) throws Exception;
     // 게시글 삭제
-    void boardDelete(String boardId) throws Exception;
+    void boardDelete(int boardId) throws Exception;
     // 공지사항 목록 보기
     List<BoardDto> boardNoticeList() throws Exception;
     // 게시글 목록 보기
