@@ -56,8 +56,10 @@ public class BoardController {
             return exceptionHandling(e);
         }
     }
-
-    @PostMapping("/")
+    
+    @ApiOperation(value = "게시글 등록", notes = "게시글을 등록합니다.")
+    @ApiResponses({@ApiResponse(code=200, message = "게시글 등록 OK"), @ApiResponse(code=500, message = "서버에러")})
+    @PostMapping
     public ResponseEntity<?> boardWrite(@RequestBody BoardDto boardDto){
         logger.debug("write board :::" + boardDto.toString());
         try{
