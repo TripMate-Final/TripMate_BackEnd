@@ -33,11 +33,9 @@ public class UserController {
 	@ApiResponses({@ApiResponse(code = 200 , message = "회원로그인 OK") , @ApiResponse(code = 500 , message = "서버에러")})
 	@PostMapping(value = "/login")
 	public ResponseEntity<?> userLogin(@RequestBody UserDto userDto , HttpSession session) {
-//		logger.debug("userRegister memberDto : {}", id);
+		logger.debug("userRegister memberDto : {}", userDto);
 		System.out.println(userDto.toString());
-//		@RequestBody UserDto userDto
 //		@PathVariable("userid") String userId;
-//		return new ResponseEntity<Void>(HttpStatus.OK);
 		try {
 			userDto = userService.userLogin(userDto);
 			System.out.println(userDto);
@@ -47,6 +45,18 @@ public class UserController {
 			}
 			else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	@ApiOperation(value = "회원가입" , notes = "회원을 가입합니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "회원가입 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@PostMapping(value = "/regist")
+	public ResponseEntity<?> userRegist(@RequestBody UserDto userDto) {
+		try {
+			userService.userRegist(userDto);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
