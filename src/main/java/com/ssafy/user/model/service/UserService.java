@@ -10,7 +10,7 @@ public interface UserService {
 	void userRegist(UserDto userDto) throws Exception;
 	UserDto userChangePassword(UserDto userDto) throws Exception;
 	void userDelete(UserDto userDto) throws Exception;
-	UserDto userUpdate(UserDto userDto) throws Exception;
+	void userUpdate(UserDto userDto) throws Exception;
 	void friendRequest() throws Exception;
 	void friendAccept() throws Exception;
 	void friendDelete() throws Exception;

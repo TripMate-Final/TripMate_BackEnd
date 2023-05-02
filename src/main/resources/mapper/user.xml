@@ -27,4 +27,10 @@
 		where user_id = #{userId}
 	</delete>
 
+	<update id="userUpdate" parameterType="UserDto">
+		update users
+		set user_email = #{userEmail} , user_name = #{userName} , user_password = #{userPassword}
+		where user_id = #{userId}
+	</update>
+
 </mapper>

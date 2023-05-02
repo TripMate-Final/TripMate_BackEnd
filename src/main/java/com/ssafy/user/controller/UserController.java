@@ -78,6 +78,19 @@ public class UserController {
 	}
 
 
+	@ApiOperation(value = "회원정보수정" , notes = "회원 정보를 수정합니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "회원정보수정 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@PutMapping(value = "/update")
+	public ResponseEntity<?> userUpdate(@RequestBody UserDto userDto){
+		try {
+			userService.userUpdate(userDto);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

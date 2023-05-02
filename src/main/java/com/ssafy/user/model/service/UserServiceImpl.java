@@ -42,8 +42,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto userUpdate(UserDto userDto) throws Exception {
-		return userMapper.userUpdate(userDto);
+	public void userUpdate(UserDto userDto) throws Exception {
+		userMapper.userUpdate(userDto);
 	}
 
 	@Override
