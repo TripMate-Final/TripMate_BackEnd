@@ -1,5 +1,6 @@
 package com.ssafy.user.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
@@ -90,6 +91,24 @@ public class UserController {
 		}
 	}
 
+	@ApiOperation(value = "친구추가 받기" , notes = "친구 추가를 수락합니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "친구 추가 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@GetMapping(value = "/friend/{friend_id}")
+	public ResponseEntity<?> friendAccept(HttpSession session , @PathVariable("friend_id") String friendId){
+
+		UserDto userDto = (UserDto) session.getAttribute("userinfo");
+		System.out.println(userDto.getUserId() + " " + friendId);
+		Map<String , String> map = new HashMap<>();
+		map.put("userId" , userDto.getUserId());
+		map.put("friendId" , friendId);
+
+		try {
+			userService.friendAccept(map);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();

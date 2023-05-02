@@ -1,6 +1,7 @@
 package com.ssafy.user.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -53,9 +54,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void friendAccept() throws Exception {
-		// TODO Auto-generated method stub
-
+	public void friendAccept(Map<String , String> map) throws Exception {
+		userMapper.friendAccept(map);
 	}
 
 	@Override

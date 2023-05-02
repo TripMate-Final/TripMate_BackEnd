@@ -2,6 +2,7 @@ package com.ssafy.user.model.mapper;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,7 +17,7 @@ public interface UserMapper {
 	void userDelete(UserDto userDto) throws SQLException;
 	UserDto userUpdate(UserDto userDto) throws SQLException;
 	void friendRequest() throws SQLException;
-	void friendAccept() throws SQLException;
+	void friendAccept(Map<String , String> map) throws SQLException;
 	void friendDelete() throws SQLException;
 	List<String> friendList() throws SQLException;
 }

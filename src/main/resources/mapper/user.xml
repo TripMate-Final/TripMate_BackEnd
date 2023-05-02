@@ -33,4 +33,10 @@
 		where user_id = #{userId}
 	</update>
 
+	<insert id="friendAccept" parameterType="Map">
+		insert into friends (friend_following, friend_follower, friend_date)
+		values (#{userId}, #{friendId} , now()) ,
+			   (#{friendId}, #{userId} , now())
+	</insert>
+
 </mapper>
