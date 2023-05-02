@@ -98,6 +98,19 @@ public class BoardController {
             return exceptionHandling(e);
         }
     }
+    @ApiOperation(value = "게시글 수정", notes = "게시글을 수정합니다.")
+    @ApiResponses({@ApiResponse(code=200, message = "게시글 수정하기 OK"), @ApiResponse(code=500, message = "서버에러")})
+    @PutMapping
+    public ResponseEntity<?> boardUpdate(@RequestBody BoardDto boardDto){
+        logger.debug("board update ::: " + boardDto);
+        try{
+            boardService.boardUpdate(boardDto);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+
+    }
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();

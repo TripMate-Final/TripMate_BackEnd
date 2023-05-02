@@ -22,8 +22,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public BoardDto boardUpdate(BoardDto boardDto) throws Exception {
-        return null;
+    public void boardUpdate(BoardDto boardDto) throws Exception {
+        boardMapper.boardUpdate(boardDto);
     }
 
     @Override

@@ -46,4 +46,15 @@
 		where board_id = #{boardId};
 	</select>
 
+	<!-- 게시글 수정 -->
+	<update id="boardUpdate" parameterType="BoardDto">
+		update boards
+		<trim prefix="set" suffixOverrides=",">
+			<if test="boardTitle != null">board_title = #{boardTitle},</if>
+			<if test="boardContent != null">board_content = #{boardContent},</if>
+			<if test="boardType != null">board_type = #{boardType},</if>
+		</trim>
+		where board_id = #{boardId}
+	</update>
+
 </mapper>

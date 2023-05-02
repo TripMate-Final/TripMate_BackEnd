@@ -9,7 +9,7 @@ public interface BoardService {
     // 게시글 작성
     void boardWrite(BoardDto boardDto) throws Exception;
     // 게시글 수정
-    BoardDto boardUpdate(BoardDto boardDto) throws Exception;
+    void boardUpdate(BoardDto boardDto) throws Exception;
     // 게시글 삭제
     void boardDelete(int boardId) throws Exception;
     // 공지사항 목록 보기
