@@ -12,6 +12,7 @@
 		<result column="board_content" property="boardContent"/>
 		<result column="board_type" property="boardType"/>
 	</resultMap>
+
 	<!-- 공지사항 목록 -->
 	<select id="boardNoticeList" resultMap="board">
 		select board_id, board_title, user_id, board_date, board_content, board_type
@@ -25,4 +26,10 @@
 		from boards
 		where board_type = #{boardType};
 	</select>
+
+	<!-- 게시글 등록 -->
+	<insert id="boardWrite" parameterType="BoardDto">
+		insert into boards(board_title, user_id, board_date, board_content, board_type)
+		values(#{boardTitle}, #{userId}, now(), #{boardContent}, #{boardType});
+	</insert>
 </mapper>

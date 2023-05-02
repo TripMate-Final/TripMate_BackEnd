@@ -18,7 +18,7 @@ public class BoardServiceImpl implements BoardService{
 
     @Override
     public void boardWrite(BoardDto boardDto) throws Exception {
-
+        boardMapper.boardWrite(boardDto);
     }
 
     @Override

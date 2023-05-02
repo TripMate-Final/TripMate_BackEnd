@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
 import java.util.List;
 
 @RestController
@@ -55,6 +56,18 @@ public class BoardController {
             return exceptionHandling(e);
         }
     }
+
+    @PostMapping("/write")
+    public ResponseEntity<?> boardWrite(@RequestBody BoardDto boardDto){
+        logger.debug("write board :::" + boardDto.toString());
+        try{
+            boardService.boardWrite(boardDto);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        }catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
