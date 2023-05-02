@@ -20,11 +20,10 @@
 		where board_type = 'notice';
 	</select>
 
-	<!-- 게시글 목록 -->
-	<select id="boardList" parameterType="String" resultMap="board">
+	<!-- 게시글 목록 전체 -->
+	<select id="boardListAll" parameterType="String" resultMap="board">
 		select board_title, user_id, board_date, board_content, board_type
 		from boards
-		where board_type = #{boardType};
 	</select>
 
 	<!-- 게시글 등록 -->

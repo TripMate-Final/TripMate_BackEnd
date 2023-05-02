@@ -37,8 +37,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardDto> boardList(String boardType) throws Exception {
-        return boardMapper.boardList(boardType);
+    public List<BoardDto> boardListAll() throws Exception {
+        return boardMapper.boardListAll();
     }
 
     @Override

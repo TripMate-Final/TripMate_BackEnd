@@ -41,12 +41,12 @@ public class BoardController {
         }
     }
     
-    @ApiOperation(value = "게시판 목록", notes = "게시판 목록을 보여줍니다.")
-    @ApiResponses({@ApiResponse(code=200, message = "게시판 목록 OK"), @ApiResponse(code=500, message = "서버에러")})
-    @GetMapping("/list/{boardType}")
-    public ResponseEntity<?> boardList(@PathVariable("boardType") String boardType){
+    @ApiOperation(value = "게시판 목록 전체", notes = "게시판 목록 전체를 보여줍니다.")
+    @ApiResponses({@ApiResponse(code=200, message = "게시판 목록 전체 OK"), @ApiResponse(code=500, message = "서버에러")})
+    @GetMapping("/list")
+    public ResponseEntity<?> boardListAll(){
         try {
-            List<BoardDto> list = boardService.boardList(boardType);
+            List<BoardDto> list = boardService.boardListAll();
             if(list != null && !list.isEmpty()) {
                 return new ResponseEntity<List<BoardDto>>(list, HttpStatus.OK);
             }else{
