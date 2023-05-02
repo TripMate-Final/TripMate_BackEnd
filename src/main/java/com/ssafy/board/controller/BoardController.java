@@ -57,7 +57,7 @@ public class BoardController {
         }
     }
 
-    @PostMapping("/write")
+    @PostMapping("/")
     public ResponseEntity<?> boardWrite(@RequestBody BoardDto boardDto){
         logger.debug("write board :::" + boardDto.toString());
         try{
@@ -67,7 +67,6 @@ public class BoardController {
             return exceptionHandling(e);
         }
     }
-
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
