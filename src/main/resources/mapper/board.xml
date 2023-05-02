@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ssafy.board.model.mapper.BoardMapper">
+
+	<resultMap id="board" type="boardDto">
+		<result column="board_id" property="boardId"/>
+		<result column="board_title" property="boardTitle"/>
+		<result column="user_id" property="userId"/>
+		<result column="board_date" property="boardDate"/>
+		<result column="board_content" property="boardContent"/>
+		<result column="board_type" property="boardType"/>
+	</resultMap>
+	<!-- 공지사항 목록 -->
+	<select id="boardNoticeList" resultMap="board">
+		select board_id, board_title, user_id, board_date, board_content, board_type
+		from boards
+		where board_type = 'notice';
+	</select>
+
+	<!-- 게시글 목록 -->
+	<select id="boardList" parameterType="String" resultMap="board">
+		select board_title, user_id, board_date, board_content, board_type
+		from boards
+		where board_type = #{boardType};
+	</select>
+</mapper>
