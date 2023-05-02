@@ -39,4 +39,11 @@
 		where board_id = #{boardId};
 	</delete>
 
+	<!-- 게시글 상세 -->
+	<select id="boardDetail" parameterType="int" resultMap="board">
+		select board_title, user_id, board_date, board_content, board_type
+		from boards
+		where board_id = #{boardId};
+	</select>
+
 </mapper>

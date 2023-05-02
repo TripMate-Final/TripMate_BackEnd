@@ -17,7 +17,7 @@ public interface BoardService {
     // 게시글 목록 보기
     List<BoardDto> boardList(String boardType) throws Exception;
     // 게시글 내용 보기
-    BoardDto boardDetail(int board_id) throws Exception;
+    BoardDto boardDetail(int boardId) throws Exception;
     // 게시글 검색
     List<BoardDto> boardSearch(String keyword) throws Exception;
 

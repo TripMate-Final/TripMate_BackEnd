@@ -19,7 +19,7 @@ public interface BoardMapper {
     // 게시글 목록 보기
     List<BoardDto> boardList(String boardType) throws SQLException;
     // 게시글 내용 보기
-    BoardDto boardDetail(int board_id) throws SQLException;
+    BoardDto boardDetail(int boardId) throws SQLException;
     // 게시글 검색
     List<BoardDto> boardSearch(String keyword) throws SQLException;
 }

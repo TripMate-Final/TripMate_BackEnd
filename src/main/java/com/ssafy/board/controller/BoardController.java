@@ -82,6 +82,23 @@ public class BoardController {
         }
     }
 
+    @ApiOperation(value = "게시글 상세", notes = "게시글을 확인합니다.")
+    @ApiResponses({@ApiResponse(code=200, message = "게시글 상세보기 OK"), @ApiResponse(code=500, message = "서버에러")})
+    @GetMapping("/{boardId}")
+    public ResponseEntity<?> boardDetail(@PathVariable("boardId") int boardId){
+        logger.debug("board detail :::" + boardId);
+        try{
+            BoardDto boardDto = boardService.boardDetail(boardId);
+            if(boardDto != null){
+                return new ResponseEntity<BoardDto>(boardDto, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+            }
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
+
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
         return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
