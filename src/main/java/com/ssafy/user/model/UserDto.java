@@ -5,49 +5,49 @@ import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "UserDto (회원정보)", description = "회원 정보를 가진 Class")
 public class UserDto {
-	private String user_id;
 	@ApiModelProperty(value = "회원 아이디")
-	private String user_auth_id;
-	private String user_email;
-	private String user_name;
+	private String userId;
+	@ApiModelProperty(value = "회원 이메일")
+	private String userEmail;
+	@ApiModelProperty(value = "회원 이름")
+	private String userName;
 	@ApiModelProperty(value = "회원 비밀번호")
-	private String user_password;
-	private String user_position;
-	
-	public String getUser_id() {
-		return user_id;
+	private String userPassword;
+	@ApiModelProperty(value = "회원 타입")
+	private String userPosition;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
-	public String getUser_auth_id() {
-		return user_auth_id;
+	public String getUserEmail() {
+		return userEmail;
 	}
-	public void setUser_auth_id(String user_auth_id) {
-		this.user_auth_id = user_auth_id;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
-	public String getUser_email() {
-		return user_email;
+	public String getUserName() {
+		return userName;
 	}
-	public void setUser_email(String user_email) {
-		this.user_email = user_email;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
-	public String getUser_name() {
-		return user_name;
+	public String getUserPassword() {
+		return userPassword;
 	}
-	public void setUser_name(String user_name) {
-		this.user_name = user_name;
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
-	public String getUser_password() {
-		return user_password;
+	public String getUserPosition() {
+		return userPosition;
 	}
-	public void setUser_password(String user_password) {
-		this.user_password = user_password;
+	public void setUserPosition(String userPosition) {
+		this.userPosition = userPosition;
 	}
-	public String getUser_position() {
-		return user_position;
-	}
-	public void setUser_position(String user_position) {
-		this.user_position = user_position;
+	@Override
+	public String toString() {
+		return "UserDto [userId=" + userId + ", userEmail=" + userEmail + ", userName=" + userName + ", userPassword="
+				+ userPassword + ", userPosition=" + userPosition + "]";
 	}
 }

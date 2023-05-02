@@ -3,5 +3,17 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.ssafy.user.model.mapper.UserMapper">
+	<resultMap type="userDto" id="user">
+		<result column="user_id" property="userId" />
+		<result column="user_email" property="userEmail" />
+		<result column="user_name" property="userName" />
+		<result column="user_position" property="userPosition" />
+	</resultMap>
+
+	<select id="userLogin" parameterType="UserDto" resultMap="user">
+		select user_id , user_email , user_name , user_position
+		from users
+		where user_id = #{userId} and user_password = #{userPassword}
+	</select>
 
 </mapper>

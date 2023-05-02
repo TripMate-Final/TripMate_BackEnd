@@ -1,6 +1,6 @@
 package com.ssafy.user.model.service;
 
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,57 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto userLogin(Map<String, String> map) throws Exception {
-		return userMapper.userLogin(map);
+	public UserDto userLogin(UserDto userdto) throws Exception {
+		return userMapper.userLogin(userdto);
+	}
+
+	@Override
+	public int userIdCheck(String userId) throws Exception {
+		return userMapper.userIdCheck(userId);
+	}
+
+	@Override
+	public void userRegist(UserDto userDto) throws Exception {
+		userMapper.userRegist(userDto);
+	}
+
+	@Override
+	public UserDto userChangePassword(UserDto userDto) throws Exception {
+		return userMapper.userChangePassword(userDto);
+	}
+
+	@Override
+	public void userDelete(UserDto userDto) throws Exception {
+		userMapper.userDelete(userDto);
+	}
+
+	@Override
+	public UserDto userUpdate(UserDto userDto) throws Exception {
+		return userMapper.userUpdate(userDto);
+	}
+
+	@Override
+	public void friendRequest() throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void friendAccept() throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void friendDelete() throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<String> friendList() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
+
