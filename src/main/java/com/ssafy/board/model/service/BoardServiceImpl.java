@@ -5,6 +5,7 @@ import com.ssafy.board.model.mapper.BoardMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -47,7 +48,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardDto> boardSearch(String keyword) throws Exception {
-        return null;
+    public List<BoardDto> boardSearch(Map<String,String> map) throws Exception {
+        return boardMapper.boardSearch(map);
     }
 }

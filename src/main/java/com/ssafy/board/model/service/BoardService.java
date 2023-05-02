@@ -3,6 +3,7 @@ package com.ssafy.board.model.service;
 import com.ssafy.board.model.BoardDto;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
 
@@ -19,6 +20,6 @@ public interface BoardService {
     // 게시글 내용 보기
     BoardDto boardDetail(int boardId) throws Exception;
     // 게시글 검색
-    List<BoardDto> boardSearch(String keyword) throws Exception;
+    List<BoardDto> boardSearch(Map<String,String> map) throws Exception;
 
 }

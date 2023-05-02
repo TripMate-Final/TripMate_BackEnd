@@ -26,6 +26,13 @@
 		from boards
 	</select>
 
+	<!-- 게시글 검색 -->
+	<select id="boardSearch" parameterType="map" resultMap="board">
+		select board_title, user_id, board_date, board_content, board_type
+		from boards
+		where board_type = #{boardType} and board_content like concat('%', #{keyword}, '%');
+	</select>
+
 	<!-- 게시글 등록 -->
 	<insert id="boardWrite" parameterType="BoardDto">
 		insert into boards(board_title, user_id, board_date, board_content, board_type)

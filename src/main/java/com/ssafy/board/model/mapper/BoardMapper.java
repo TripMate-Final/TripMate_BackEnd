@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface BoardMapper {
@@ -21,5 +22,5 @@ public interface BoardMapper {
     // 게시글 내용 보기
     BoardDto boardDetail(int boardId) throws SQLException;
     // 게시글 검색
-    List<BoardDto> boardSearch(String keyword) throws SQLException;
+    List<BoardDto> boardSearch(Map<String,String> map) throws SQLException;
 }
