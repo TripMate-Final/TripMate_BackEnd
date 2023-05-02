@@ -2,6 +2,7 @@ package com.ssafy.user.controller;
 
 import java.util.Map;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -61,7 +62,22 @@ public class UserController {
 			return exceptionHandling(e);
 		}
 	}
-	
+
+
+	@ApiOperation(value = "회원삭제" , notes = "회원을 삭제합니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "회원삭제 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@DeleteMapping(value = "/delete")
+	public ResponseEntity<?> userDelete(HttpSession session){
+		UserDto userDto= (UserDto) session.getAttribute("userinfo");
+		try {
+			userService.userDelete(userDto);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

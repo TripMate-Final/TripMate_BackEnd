@@ -21,4 +21,10 @@
 		values (#{userId}, #{userEmail}, #{userName}, #{userPassword})
 	</insert>
 
+	<delete id="userDelete" parameterType="UserDto" >
+		delete
+		from users
+		where user_id = #{userId}
+	</delete>
+
 </mapper>
