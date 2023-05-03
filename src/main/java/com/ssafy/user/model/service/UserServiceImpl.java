@@ -63,9 +63,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<String> friendList() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> friendList(String userId) throws Exception {
+		return userMapper.friendList(userId);
 	}
 }
 

@@ -15,5 +15,5 @@ public interface UserService {
 	void friendRequest(Map<String , String> map) throws Exception;
 	void friendAccept(Map<String , String> map) throws Exception;
 	void friendDelete(Map<String , String> map) throws Exception;
-	List<String> friendList() throws Exception;
+	List<String> friendList(String UserId) throws Exception;
 }

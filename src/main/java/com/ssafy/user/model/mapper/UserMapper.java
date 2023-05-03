@@ -19,5 +19,5 @@ public interface UserMapper {
 	void friendRequest(Map<String , String> map) throws SQLException;
 	void friendAccept(Map<String , String> map) throws SQLException;
 	void friendDelete(Map<String , String> map) throws SQLException;
-	List<String> friendList() throws SQLException;
+	List<String> friendList(String userId) throws SQLException;
 }
