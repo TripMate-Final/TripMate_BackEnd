@@ -33,10 +33,36 @@
 		where user_id = #{userId}
 	</update>
 
+	<update id="userFindPassword" parameterType="Map">
+		update users
+		set user_password = #{userPassword}
+		where user_id = #{userId} and user_email = #{userEmail}
+	</update>
+
+
 	<insert id="friendAccept" parameterType="Map">
 		insert into friends (friend_following, friend_follower, friend_date)
 		values (#{userId}, #{friendId} , now()) ,
 			   (#{friendId}, #{userId} , now())
 	</insert>
+
+	<insert id="friendRequest" parameterType="Map">
+		insert into friends_request(user_id , friend_id , request_date)
+		values (#{userId} , #{friendId} , now())
+	</insert>
+
+	<delete id="friendDelete" parameterType="Map">
+		delete
+		from friends
+		where friend_following = #{userId} and friend_follower = #{friendId} or friend_following = #{friendId} and friend_follower = #{userId}
+	</delete>
+
+	<select id="friendList" parameterType="String" resultType="String">
+		select friend_follower
+		from friends
+		where friend_following = #{userId}
+	</select>
+
+
 
 </mapper>

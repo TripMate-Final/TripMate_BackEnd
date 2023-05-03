@@ -1,6 +1,7 @@
 package com.ssafy.user.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpSession;
 @CrossOrigin("*")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	private UserService userService;
+	private final UserService userService;
 
 	public UserController(UserService userService) {
 		super();
@@ -91,9 +92,11 @@ public class UserController {
 		}
 	}
 
+
+
 	@ApiOperation(value = "친구추가 받기" , notes = "친구 추가를 수락합니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "친구 추가 OK") , @ApiResponse(code = 500 , message = "서버에러")})
-	@GetMapping(value = "/friend/{friend_id}")
+	@PostMapping(value = "/accept/{friend_id}")
 	public ResponseEntity<?> friendAccept(HttpSession session , @PathVariable("friend_id") String friendId){
 
 		UserDto userDto = (UserDto) session.getAttribute("userinfo");
@@ -109,6 +112,70 @@ public class UserController {
 			return exceptionHandling(e);
 		}
 	}
+
+	@ApiOperation(value = "친구추가 요청" , notes = "친구 요청을 합니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "친구 요청 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@PostMapping(value = "/request/{friend_id}")
+	public ResponseEntity<?> friendRequest(HttpSession session , @PathVariable("friend_id") String friendId){
+		UserDto userDto = (UserDto) session.getAttribute("userinfo");
+		Map<String , String> map = new HashMap<>();
+		map.put("userId" , friendId);
+		map.put("friendId" , userDto.getUserId());
+
+		try {
+			userService.friendRequest(map);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	@ApiOperation(value = "친구삭제" , notes = "친구관계를 삭제합니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "친구 삭제 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@DeleteMapping(value = "/delete/{friend_id}")
+	public ResponseEntity<?> friendDelete(HttpSession session , @PathVariable("friend_id") String friendId){
+		UserDto userDto = (UserDto) session.getAttribute("userinfo");
+		Map<String , String> map = new HashMap<>();
+		map.put("userId" , friendId);
+		map.put("friendId" , userDto.getUserId());
+
+		try {
+			userService.friendDelete(map);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	@ApiOperation(value = "친구목록보기" , notes = "친구목록을 확인합니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "친구 삭제 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@GetMapping(value = "/list")
+	public ResponseEntity<?> friendList(HttpSession session){
+		UserDto userDto = (UserDto) session.getAttribute("userinfo");
+		try {
+			List<String> friendList = userService.friendList(userDto.getUserId());
+			return new ResponseEntity<List>(friendList , HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	@ApiOperation(value = "비밀번호 찾기" , notes = "비밀번호를 등록된 email로 보내줍니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "비밀번호 찾기 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@PutMapping(value = "/find")
+	public ResponseEntity<?> userPasswordFind(@PathVariable("user_id") String userId , @PathVariable("user_email") String userEmail){
+		Map<String , String> map = new HashMap<>();
+		map.put("userId" , userId);
+		map.put("userEmail" , userEmail);
+		map.put("userPassword" , "랜덤");
+		try {
+			UserDto userDto = userService.userFindPassword(map);
+			return new ResponseEntity<UserDto>(userDto , HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
 
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
