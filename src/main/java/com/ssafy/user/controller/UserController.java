@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 @CrossOrigin("*")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-	private UserService userService;
+	private final UserService userService;
 
 	public UserController(UserService userService) {
 		super();
@@ -155,6 +155,22 @@ public class UserController {
 		try {
 			List<String> friendList = userService.friendList(userDto.getUserId());
 			return new ResponseEntity<List>(friendList , HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	@ApiOperation(value = "비밀번호 찾기" , notes = "비밀번호를 등록된 email로 보내줍니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "비밀번호 찾기 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@PutMapping(value = "/find")
+	public ResponseEntity<?> userPasswordFind(@PathVariable("user_id") String userId , @PathVariable("user_email") String userEmail){
+		Map<String , String> map = new HashMap<>();
+		map.put("userId" , userId);
+		map.put("userEmail" , userEmail);
+		map.put("userPassword" , "랜덤");
+		try {
+			UserDto userDto = userService.userFindPassword(map);
+			return new ResponseEntity<UserDto>(userDto , HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

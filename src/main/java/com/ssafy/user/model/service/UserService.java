@@ -9,7 +9,7 @@ public interface UserService {
 	int userIdCheck(String userId) throws Exception;
 	UserDto userLogin(UserDto userDto) throws Exception;
 	void userRegist(UserDto userDto) throws Exception;
-	UserDto userChangePassword(UserDto userDto) throws Exception;
+	UserDto userFindPassword(Map<String , String> map) throws Exception;
 	void userDelete(UserDto userDto) throws Exception;
 	void userUpdate(UserDto userDto) throws Exception;
 	void friendRequest(Map<String , String> map) throws Exception;

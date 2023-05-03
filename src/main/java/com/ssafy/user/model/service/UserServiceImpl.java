@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto userChangePassword(UserDto userDto) throws Exception {
-		return userMapper.userChangePassword(userDto);
+	public UserDto userFindPassword(Map<String , String> map) throws Exception {
+		return userMapper.userFindPassword(map);
 	}
 
 	@Override

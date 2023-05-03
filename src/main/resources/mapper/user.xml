@@ -33,6 +33,13 @@
 		where user_id = #{userId}
 	</update>
 
+	<update id="userFindPassword" parameterType="Map">
+		update users
+		set user_password = #{userPassword}
+		where user_id = #{userId} and user_email = #{userEmail}
+	</update>
+
+
 	<insert id="friendAccept" parameterType="Map">
 		insert into friends (friend_following, friend_follower, friend_date)
 		values (#{userId}, #{friendId} , now()) ,
