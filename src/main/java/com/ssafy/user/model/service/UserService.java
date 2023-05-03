@@ -12,7 +12,7 @@ public interface UserService {
 	UserDto userChangePassword(UserDto userDto) throws Exception;
 	void userDelete(UserDto userDto) throws Exception;
 	void userUpdate(UserDto userDto) throws Exception;
-	void friendRequest() throws Exception;
+	void friendRequest(Map<String , String> map) throws Exception;
 	void friendAccept(Map<String , String> map) throws Exception;
 	void friendDelete() throws Exception;
 	List<String> friendList() throws Exception;

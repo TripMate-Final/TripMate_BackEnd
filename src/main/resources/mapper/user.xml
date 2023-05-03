@@ -39,4 +39,13 @@
 			   (#{friendId}, #{userId} , now())
 	</insert>
 
+	<insert id="friendRequest" parameterType="Map">
+		insert into friends_request(user_id , friend_id , request_date)
+		values (#{userId} , #{friendId} , now())
+	</insert>
+
+
+
+
+
 </mapper>

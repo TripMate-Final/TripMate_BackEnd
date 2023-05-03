@@ -48,9 +48,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void friendRequest() throws Exception {
-		// TODO Auto-generated method stub
-
+	public void friendRequest(Map<String , String> map) throws Exception {
+		userMapper.friendRequest(map);
 	}
 
 	@Override

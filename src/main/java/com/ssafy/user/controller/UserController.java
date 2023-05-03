@@ -93,7 +93,7 @@ public class UserController {
 
 	@ApiOperation(value = "친구추가 받기" , notes = "친구 추가를 수락합니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "친구 추가 OK") , @ApiResponse(code = 500 , message = "서버에러")})
-	@GetMapping(value = "/friend/{friend_id}")
+	@PostMapping(value = "/accept/{friend_id}")
 	public ResponseEntity<?> friendAccept(HttpSession session , @PathVariable("friend_id") String friendId){
 
 		UserDto userDto = (UserDto) session.getAttribute("userinfo");
@@ -104,6 +104,23 @@ public class UserController {
 
 		try {
 			userService.friendAccept(map);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	@ApiOperation(value = "친구추가 요청" , notes = "친구 요청을 합니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "친구 요청 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@PostMapping(value = "/request/{friend_id}")
+	public ResponseEntity<?> friendRequest(HttpSession session , @PathVariable("friend_id") String friendId){
+		UserDto userDto = (UserDto) session.getAttribute("userinfo");
+		Map<String , String> map = new HashMap<>();
+		map.put("userId" , friendId);
+		map.put("friendId" , userDto.getUserId());
+
+		try {
+			userService.friendRequest(map);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
