@@ -18,6 +18,6 @@ public interface UserMapper {
 	UserDto userUpdate(UserDto userDto) throws SQLException;
 	void friendRequest(Map<String , String> map) throws SQLException;
 	void friendAccept(Map<String , String> map) throws SQLException;
-	void friendDelete() throws SQLException;
+	void friendDelete(Map<String , String> map) throws SQLException;
 	List<String> friendList() throws SQLException;
 }

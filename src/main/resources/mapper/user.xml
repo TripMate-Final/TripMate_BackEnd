@@ -44,6 +44,11 @@
 		values (#{userId} , #{friendId} , now())
 	</insert>
 
+	<delete id="friendDelete" parameterType="Map">
+		delete
+		from friends
+		where friend_following = #{userId} and friend_follower = #{friendId} or friend_following = #{friendId} and friend_follower = #{userId}
+	</delete>
 
 
 

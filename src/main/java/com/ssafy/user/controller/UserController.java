@@ -127,6 +127,27 @@ public class UserController {
 		}
 	}
 
+	@ApiOperation(value = "친구삭제" , notes = "친구관계를 삭제합니다")
+	@ApiResponses({@ApiResponse(code = 200 , message = "친구 삭제 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@DeleteMapping(value = "/delete/{friend_id}")
+	public ResponseEntity<?> friendDelete(HttpSession session , @PathVariable("friend_id") String friendId){
+		UserDto userDto = (UserDto) session.getAttribute("userinfo");
+		Map<String , String> map = new HashMap<>();
+		map.put("userId" , friendId);
+		map.put("friendId" , userDto.getUserId());
+
+		try {
+			userService.friendDelete(map);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+
+
+
+
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

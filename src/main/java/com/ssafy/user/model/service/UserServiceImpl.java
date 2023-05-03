@@ -58,9 +58,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void friendDelete() throws Exception {
-		// TODO Auto-generated method stub
-
+	public void friendDelete(Map<String , String> map) throws Exception {
+		userMapper.friendDelete(map);
 	}
 
 	@Override
