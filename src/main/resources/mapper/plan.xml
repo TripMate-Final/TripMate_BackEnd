@@ -40,4 +40,26 @@
         where p.plan_id = #{planId}
         order by plan_day , plan_order
     </select>
+
+    <delete id="planDelete" parameterType="planDeleteDto">
+        delete
+        from plans_authorization
+        where plan_id = #{planId} and user_id = #{userId}
+    </delete>
+
+    <delete id="planDeleteAll" parameterType="int">
+        delete
+        from plans_detail
+        where plan_id = #{planId};
+        delete
+        from plans
+        where plan_id = #{planId}
+    </delete>
+
+    <select id="planCountUser" parameterType="int" resultType="int">
+        select count(plan_id)
+        from plans_authorization
+        where plan_id = #{planId}
+    </select>
+
 </mapper>

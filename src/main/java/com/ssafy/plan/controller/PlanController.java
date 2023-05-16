@@ -1,5 +1,6 @@
 package com.ssafy.plan.controller;
 
+import com.ssafy.plan.model.PlanDeleteDto;
 import com.ssafy.plan.model.PlanDto;
 import com.ssafy.plan.model.PlanViewDto;
 import com.ssafy.plan.model.service.PlanService;
@@ -49,6 +50,20 @@ public class PlanController {
             }else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
+    @ApiOperation(value = "플랜 삭제", notes = "플랜삭제.")
+    @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
+    @DeleteMapping("/")
+    public ResponseEntity<?> planListAll(PlanDeleteDto planDeleteDto){
+        try {
+            planService.planDelete(planDeleteDto);
+            if(planService.planCountUser(planDeleteDto.getPlanId()) == 0)
+                planService.planDeleteAll(planDeleteDto.getPlanId());
+            return new ResponseEntity<List<PlanDto>>(HttpStatus.OK);
         } catch (Exception e) {
             return exceptionHandling(e);
         }

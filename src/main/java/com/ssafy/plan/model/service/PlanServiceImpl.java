@@ -1,5 +1,6 @@
 package com.ssafy.plan.model.service;
 
+import com.ssafy.plan.model.PlanDeleteDto;
 import com.ssafy.plan.model.PlanDto;
 import com.ssafy.plan.model.PlanViewDto;
 import com.ssafy.plan.model.mapper.PlanMapper;
@@ -22,5 +23,22 @@ public class PlanServiceImpl implements PlanService{
     @Override
     public List<PlanViewDto> planView(int planId) {
         return planMapper.planView(planId);
+    }
+
+
+
+    @Override
+    public void planDelete(PlanDeleteDto planDeleteDto) {
+        planMapper.planDelete(planDeleteDto);
+    }
+
+    @Override
+    public int planCountUser(int planId) {
+        return planMapper.planCountUser(planId);
+    }
+
+    @Override
+    public void planDeleteAll(int planId) {
+        planMapper.planDeleteAll(planId);
     }
 }
