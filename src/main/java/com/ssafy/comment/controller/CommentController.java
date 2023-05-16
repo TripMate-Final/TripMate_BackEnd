@@ -57,7 +57,7 @@ public class CommentController {
 
     @ApiOperation(value = "댓글 등록", notes = "댓글 쓰기.")
     @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
-    @PostMapping("/regist")
+    @PostMapping("/")
     public ResponseEntity<?> commentRegist(CommentRegistDto CommentRegistDto){
         try {
             commentService.commentRegist(CommentRegistDto);
@@ -69,7 +69,7 @@ public class CommentController {
 
     @ApiOperation(value = "댓글 수정", notes = "댓글 수정.")
     @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
-    @PutMapping("/update")
+    @PutMapping("/")
     public ResponseEntity<?> commentUpdate(CommentUpdateDto commentUpdateDto){
         try {
             commentService.commentUpdate(commentUpdateDto);
