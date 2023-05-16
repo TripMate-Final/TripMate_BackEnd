@@ -13,11 +13,11 @@ public interface UserMapper {
 	int userIdCheck(String userId) throws SQLException;
 	UserDto userLogin(UserDto userDto) throws SQLException;
 	void userRegist(UserDto userDto) throws SQLException;
-	UserDto userChangePassword(UserDto userDto) throws SQLException;
+	UserDto userFindPassword(Map<String , String> map) throws SQLException;
 	void userDelete(UserDto userDto) throws SQLException;
 	UserDto userUpdate(UserDto userDto) throws SQLException;
-	void friendRequest() throws SQLException;
+	void friendRequest(Map<String , String> map) throws SQLException;
 	void friendAccept(Map<String , String> map) throws SQLException;
-	void friendDelete() throws SQLException;
-	List<String> friendList() throws SQLException;
+	void friendDelete(Map<String , String> map) throws SQLException;
+	List<String> friendList(String userId) throws SQLException;
 }

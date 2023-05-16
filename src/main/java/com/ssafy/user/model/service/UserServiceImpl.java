@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto userChangePassword(UserDto userDto) throws Exception {
-		return userMapper.userChangePassword(userDto);
+	public UserDto userFindPassword(Map<String , String> map) throws Exception {
+		return userMapper.userFindPassword(map);
 	}
 
 	@Override
@@ -48,9 +48,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void friendRequest() throws Exception {
-		// TODO Auto-generated method stub
-
+	public void friendRequest(Map<String , String> map) throws Exception {
+		userMapper.friendRequest(map);
 	}
 
 	@Override
@@ -59,15 +58,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void friendDelete() throws Exception {
-		// TODO Auto-generated method stub
-
+	public void friendDelete(Map<String , String> map) throws Exception {
+		userMapper.friendDelete(map);
 	}
 
 	@Override
-	public List<String> friendList() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> friendList(String userId) throws Exception {
+		return userMapper.friendList(userId);
 	}
 }
 

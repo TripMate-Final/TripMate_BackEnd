@@ -1,4 +1,5 @@
 package com.ssafy.board.controller;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -9,6 +10,7 @@ import com.ssafy.board.model.service.BoardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -42,31 +44,17 @@ public class BoardController {
             return exceptionHandling(e);
         }
     }
-    
-    @ApiOperation(value = "게시판 목록 전체", notes = "게시판 목록 전체를 보여줍니다.")
-    @ApiResponses({@ApiResponse(code=200, message = "게시판 목록 전체 OK"), @ApiResponse(code=500, message = "서버에러")})
+
+    @ApiOperation(value = "게시판 목록", notes = "게시판 목록을 보여줍니다.")
+    @ApiResponses({@ApiResponse(code=200, message = "게시판 목록 OK"), @ApiResponse(code=500, message = "서버에러")})
     @GetMapping("/list")
-    public ResponseEntity<?> boardListAll(){
-        try {
-            List<BoardDto> list = boardService.boardListAll();
-            if(list != null && !list.isEmpty()) {
-                return new ResponseEntity<List<BoardDto>>(list, HttpStatus.OK);
-            }else{
-                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-            }
-        } catch (Exception e) {
-            return exceptionHandling(e);
-        }
-    }
-    @ApiOperation(value = "게시판 검색", notes = "게시판 검색을 수행합니다.")
-    @ApiResponses({@ApiResponse(code=200, message = "게시판 검색 OK"), @ApiResponse(code=500, message = "서버에러")})
-    @GetMapping("/list/{boardType}/{keyword}")
-    public ResponseEntity<?> boardSearch(@PathVariable("boardType") String boardType, @PathVariable("keyword") String keyword){
+    public ResponseEntity<?> boardList(@RequestParam(value = "boardType", required = false)  String boardType, @RequestParam(value = "keyword",required = false) String keyword){
         try {
             Map<String, String> map = new HashMap<>();
             map.put("boardType",boardType);
             map.put("keyword",keyword);
-            List<BoardDto> list = boardService.boardSearch(map);
+            logger.debug("map : " + map.toString());
+            List<BoardDto> list = boardService.boardList(map);
             if(list != null && !list.isEmpty()) {
                 return new ResponseEntity<List<BoardDto>>(list, HttpStatus.OK);
             }else{
@@ -89,6 +77,7 @@ public class BoardController {
             return exceptionHandling(e);
         }
     }
+
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제합니다.")
     @ApiResponses({@ApiResponse(code=200, message = "게시글 삭제 OK"), @ApiResponse(code=500, message = "서버에러")})
     @DeleteMapping("/{boardId}")
