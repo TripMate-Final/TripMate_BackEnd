@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.comment.model.mapper.CommentMapper">
+    <resultMap id="comment" type="commentDto">
+        <result column="comment_id" property="commentId"/>
+        <result column="content_id" property="contentId"/>
+        <result column="user_name" property="userName"/>
+        <result column="comment_num" property="comment_num"/>
+        <result column="comment_depth" property="commentDepth"/>
+        <result column="comment_content" property="commentContent"/>
+        <result column="comment_date" property="commentDate"/>
+    </resultMap>
+
+    <select id="commentListAll" parameterType="int" resultMap="comment">
+        select comment_id , a.content_id , user_name ,comment_num , comment_depth , comment_content , comment_date
+        from comments c
+        join attraction_info a
+        on c.content_id = a.content_id
+        join users u
+        on u.user_id = c.user_id
+        where c.content_id = #{contentId}
+        order by comment_num desc , comment_depth
+    </select>
+
+    <delete id="commentDelete" parameterType="commentDeleteDto">
+        <if test="commentDepth == 1">
+            delete
+            from comments
+            where content_id = #{contentId} and comment_num = #{commentNum}
+        </if>
+        <if test="commentDepth == 2">
+            delete
+            from comments
+            where comment_id = #{commentId};
+        </if>
+    </delete>
+
+    <update id="commentUpdate" parameterType="commentUpdateDto">
+        update comments
+        set comment_content = #{commentContent}
+        where comment_id = #{commentId}
+    </update>
+
+    <insert id="commentRegist" parameterType="commentRegistDto">
+        <choose>
+            <when test="commentNum != 0">
+                insert into comments(content_id , user_id, comment_num, comment_depth, comment_content , comment_date)
+                values(#{contentId} , #{userId}, #{commentNum}, 2, #{commentContent} , now());
+            </when>
+            <otherwise>
+                insert into comments(content_id , user_id, comment_num, comment_depth, comment_content , comment_date)
+                select #{contentId} , #{userId}, (select Max(comment_num)+1 from comments), 1, #{commentContent} , now();
+            </otherwise>
+        </choose>
+    </insert>
+</mapper>
