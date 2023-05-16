@@ -2,6 +2,8 @@ package com.ssafy.comment.controller;
 
 import com.ssafy.comment.model.CommentDeleteDto;
 import com.ssafy.comment.model.CommentDto;
+import com.ssafy.comment.model.CommentRegistDto;
+import com.ssafy.comment.model.CommentUpdateDto;
 import com.ssafy.comment.model.service.CommentService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -52,6 +54,34 @@ public class CommentController {
             return exceptionHandling(e);
         }
     }
+
+    @ApiOperation(value = "댓글 등록", notes = "댓글 쓰기.")
+    @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
+    @PostMapping("/regist")
+    public ResponseEntity<?> commentRegist(CommentRegistDto CommentRegistDto){
+        try {
+            commentService.commentRegist(CommentRegistDto);
+            return new ResponseEntity<List<CommentDto>>(HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
+    @ApiOperation(value = "댓글 수정", notes = "댓글 수정.")
+    @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
+    @PutMapping("/update")
+    public ResponseEntity<?> commentUpdate(CommentUpdateDto commentUpdateDto){
+        try {
+            commentService.commentUpdate(commentUpdateDto);
+            return new ResponseEntity<List<CommentDto>>(HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
+
+
+
 
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
