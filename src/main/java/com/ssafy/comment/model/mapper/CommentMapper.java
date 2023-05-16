@@ -1,8 +1,13 @@
 package com.ssafy.comment.model.mapper;
 
+import com.ssafy.comment.model.CommentDto;
 import org.apache.ibatis.annotations.Mapper;
 
-//@Mapper
-public interface CommentMapper {
 
+import java.sql.SQLException;
+import java.util.List;
+
+@Mapper
+public interface CommentMapper {
+    List<CommentDto> commentListAll(int contentId) throws SQLException;
 }
