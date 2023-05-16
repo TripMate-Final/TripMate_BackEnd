@@ -5,8 +5,8 @@
 <mapper namespace="com.ssafy.comment.model.mapper.CommentMapper">
     <resultMap id="comment" type="commentDto">
         <result column="comment_id" property="commentId"/>
-        <result column="content_title" property="contentId"/>
-        <result column="user_id" property="userName"/>
+        <result column="content_id" property="contentId"/>
+        <result column="user_name" property="userName"/>
         <result column="comment_num" property="comment_num"/>
         <result column="comment_depth" property="commentDepth"/>
         <result column="comment_content" property="commentContent"/>
@@ -14,8 +14,29 @@
     </resultMap>
 
     <select id="commentListAll" parameterType="int" resultMap="comment">
-        select *
-        from comments
-        where content_id = #{contentId};
+        select comment_id , a.content_id , user_name ,comment_num , comment_depth , comment_content , comment_date
+        from comments c
+        join attraction_info a
+        on c.content_id = a.content_id
+        join users u
+        on u.user_id = c.user_id
+        where c.content_id = #{contentId}
+        order by comment_num desc , comment_depth
     </select>
+
+    <delete id="commentDelete" parameterType="commentDeleteDto">
+        <if test="commentDepth == 1">
+            delete
+            from comments
+            where content_id = #{contentId} and comment_num = #{commentNum}
+        </if>
+        <if test="commentDepth == 2">
+            delete
+            from comments
+            where comment_id = #{commentId};
+        </if>
+    </delete>
+
+
+
 </mapper>

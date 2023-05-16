@@ -1,23 +1,30 @@
 package com.ssafy.comment.model;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 @ApiModel(value = "CommentDto (댓글)", description = "댓글 내용 Class")
 public class CommentDto {
-    private String commentId;
-    private String contentId;
+    private int commentId;
+    private int contentId;
     private String userName;
-    private int comment_num;
+    private int commentNum;
     private int commentDepth;
     private String commentContent;
     private String commentDate;
 
-    public String getCommentId() {
+    public int getCommentId() {
         return commentId;
     }
 
-    public void setCommentId(String commentId) {
+    public void setCommentId(int commentId) {
         this.commentId = commentId;
+    }
+
+    public int getContentId() {
+        return contentId;
+    }
+
+    public void setContentId(int contentId) {
+        this.contentId = contentId;
     }
 
     public String getUserName() {
@@ -29,11 +36,11 @@ public class CommentDto {
     }
 
     public int getComment_num() {
-        return comment_num;
+        return commentNum;
     }
 
     public void setComment_num(int comment_num) {
-        this.comment_num = comment_num;
+        this.commentNum = comment_num;
     }
 
     public int getCommentDepth() {
@@ -66,7 +73,7 @@ public class CommentDto {
                 "commentId='" + commentId + '\'' +
                 ", contentId='" + contentId + '\'' +
                 ", userName='" + userName + '\'' +
-                ", comment_num=" + comment_num +
+                ", comment_num=" + commentNum +
                 ", commentDepth=" + commentDepth +
                 ", commentContent='" + commentContent + '\'' +
                 ", commentDate='" + commentDate + '\'' +
