@@ -7,14 +7,14 @@
         <result column="comment_id" property="commentId"/>
         <result column="content_id" property="contentId"/>
         <result column="user_name" property="userName"/>
-        <result column="comment_num" property="comment_num"/>
+        <result column="comment_num" property="commentNum"/>
         <result column="comment_depth" property="commentDepth"/>
         <result column="comment_content" property="commentContent"/>
         <result column="comment_date" property="commentDate"/>
     </resultMap>
 
     <select id="commentListAll" parameterType="int" resultMap="comment">
-        select comment_id , a.content_id , user_name ,comment_num , comment_depth , comment_content , comment_date
+        select comment_id , c.content_id , user_name ,comment_num , comment_depth , comment_content , comment_date
         from comments c
         join attraction_info a
         on c.content_id = a.content_id
