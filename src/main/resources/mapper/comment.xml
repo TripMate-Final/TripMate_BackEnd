@@ -12,7 +12,6 @@
         <result column="comment_content" property="commentContent"/>
         <result column="comment_date" property="commentDate"/>
     </resultMap>
-
     <select id="commentListAll" parameterType="int" resultMap="comment">
         select comment_id , c.content_id , user_name ,comment_num , comment_depth , comment_content , comment_date
         from comments c

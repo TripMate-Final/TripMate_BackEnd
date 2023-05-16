@@ -3,7 +3,6 @@ package com.ssafy.plan.model;
 public class PlanViewDto {
     private int planId;
     private String planTitle;
-
     private int planLength;
     private int planDay;
     private int planOrder;
