@@ -16,4 +16,16 @@
 		left join likes on info.content_id = likes.content_id group by info.content_id;
 	</select>
 
+	<!-- 관광지 상세 -->
+	<select id="attractionDetail" parameterType="int" resultType="AttractionDetailDto">
+		select info.content_id, info.title, info.first_image,  info.addr1, info.zipcode, description.overview, info.latitude, info.longitude, sido.sido_name, gugun.gugun_name, category.category_name, tag.cat1_name, tag.cat2_name, tag.cat3_name, info.hit, count(likes.likes_id) like_cnt
+		from (select * from attraction_info where content_id = #{contentId}) info
+				 left join sido on info.sido_code = sido.sido_code
+				 left join gugun on info.gugun_code = gugun.gugun_code and info.sido_code = gugun.sido_code
+				 left join attraction_category category on info.content_type_id = category.category_code
+				 left join attraction_detail detail on info.content_id = detail.content_id
+				 left join attraction_tag tag on detail.cat3 = tag.cat3_code
+				 left join attraction_description description on info.content_id = description.content_id
+				 left join likes on info.content_id = likes.content_id group by info.content_id;
+	</select>
 </mapper>

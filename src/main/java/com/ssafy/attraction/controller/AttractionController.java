@@ -1,7 +1,9 @@
 package com.ssafy.attraction.controller;
 
+import com.ssafy.attraction.model.AttractionDetailDto;
 import com.ssafy.attraction.model.AttractionListDto;
 import com.ssafy.attraction.model.service.AttractionService;
+import com.ssafy.board.model.BoardDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -9,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,6 +42,23 @@ public class AttractionController {
             return exceptionHandling(e);
         }
     }
+    @ApiOperation(value = "관광지 상세", notes = "관광지 상세정보를 보여줍니다.")
+    @ApiResponses({@ApiResponse(code=200, message = "관광지 상세보기 OK"), @ApiResponse(code=500, message = "서버에러")})
+    @GetMapping("/{contentId}")
+    public ResponseEntity<?> attractionDetail(@PathVariable("contentId") int contentId){
+        logger.debug("attraction detail :::" + contentId);
+        try{
+            AttractionDetailDto attractionDetailDto= attractionService.attractionDetail(contentId);
+            if (attractionDetailDto != null) {
+                return new ResponseEntity<AttractionDetailDto>(attractionDetailDto,HttpStatus.OK);
+            }else{
+                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+            }
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
+
     private ResponseEntity<String> exceptionHandling(Exception e) {
         e.printStackTrace();
         return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
