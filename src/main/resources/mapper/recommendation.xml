@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.ssafy.recommendation.model.mapper.RecommendationMapper">
+
+	<!-- 관광지 추천 목록 -->
+	<select id="recommendList" parameterType="int" resultType="recommendationListDto">
+		select recommend_id1,recommend_id2,recommend_id3,recommend_id4,recommend_id5
+		from attraction_recommendation
+		where content_id = #{contentId};
+	</select>
+
+</mapper>
