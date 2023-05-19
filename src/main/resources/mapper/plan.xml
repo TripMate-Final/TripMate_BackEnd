@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.plan.model.mapper.PlanMapper">
+    <resultMap id="plan" type="planDto">
+        <result column="p.plan_id" property="planId" />
+        <result column="plan_title" property="planTitle" />
+        <result column="plan_length" property="planLength" />
+    </resultMap>
+
+    <resultMap id="planView" type="planViewDto">
+        <result column="p.plan_id" property="planId" />
+        <result column="plan_title" property="planTitle" />
+        <result column="plan_length" property="planLength" />
+        <result column="plan_day" property="planDay" />
+        <result column="plan_order" property="planOrder" />
+        <result column="pd.content_id" property="contentId" />
+        <result column="addr1" property="addr1" />
+        <result column="title" property="title" />
+        <result column="first_image" property="firstImage" />
+    </resultMap>
+
+    <select id="planListAll" parameterType="String" resultMap="plan">
+        select p.plan_id , plan_title , plan_length
+        from plans p
+        join plans_authorization pa
+        on p.plan_id = pa.plan_id
+        where user_id = #{userId}
+    </select>
+    <select id="planView" parameterType="int" resultMap="planView">
+        select p.plan_id , plan_title , plan_length , plan_day , plan_order , pd.content_id , addr1 , title , first_image
+        from plans p
+        join plans_authorization pa
+        on p.plan_id = pa.plan_id
+        join plans_detail pd
+        on p.plan_id = pd.plan_id
+        join attraction_info a
+        on pd.content_id = a.content_id
+        where p.plan_id = #{planId}
+        order by plan_day , plan_order
+    </select>
+
+    <delete id="planDelete" parameterType="planDeleteDto">
+        delete
+        from plans_authorization
+        where plan_id = #{planId} and user_id = #{userId}
+    </delete>
+
+    <delete id="planDeleteAll" parameterType="int">
+        delete
+        from plans_detail
+        where plan_id = #{planId};
+        delete
+        from plans
+        where plan_id = #{planId}
+    </delete>
+
+    <select id="planCountUser" parameterType="int" resultType="int">
+        select count(plan_id)
+        from plans_authorization
+        where plan_id = #{planId}
+    </select>
+
+</mapper>
