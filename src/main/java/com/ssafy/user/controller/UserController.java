@@ -44,7 +44,7 @@ public class UserController {
 			System.out.println(userDto);
 			if(userDto != null) {
 				session.setAttribute("userinfo", userDto);
-				return new ResponseEntity<Void>(HttpStatus.OK);
+				return new ResponseEntity<UserDto>(userDto , HttpStatus.OK);
 			}
 			else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
