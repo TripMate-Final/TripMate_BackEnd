@@ -1,9 +1,6 @@
 package com.ssafy.plan.controller;
 
-import com.ssafy.plan.model.PlanDeleteDto;
-import com.ssafy.plan.model.PlanDto;
-import com.ssafy.plan.model.PlanListDto;
-import com.ssafy.plan.model.PlanViewDto;
+import com.ssafy.plan.model.*;
 import com.ssafy.plan.model.service.PlanService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,7 +19,6 @@ public class PlanController {
     public PlanController(PlanService planService) {
         this.planService = planService;
     }
-
     @ApiOperation(value = "계획 등록", notes = "계획 추가하기.")
     @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
     @PostMapping("/{planList}")
@@ -76,6 +72,30 @@ public class PlanController {
             if(planService.planCountUser(planDeleteDto.getPlanId()) == 0)
                 planService.planDeleteAll(planDeleteDto.getPlanId());
             return new ResponseEntity<List<PlanDto>>(HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
+    @ApiOperation(value = "플랜 친구공유", notes = "플랜 친구에게 공유 요청 보내기.")
+    @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
+    @PostMapping("/request")
+    public ResponseEntity<?> planShare(@RequestBody PlanShareDto planshareDto){
+        try {
+            planService.planShare(planshareDto);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
+
+    @ApiOperation(value = "플랜 공유 수락 ", notes = "플랜 공유 수락받고 나에게도 보이기")
+    @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
+    @PostMapping("/accept")
+    public ResponseEntity<?> planShareOk(@RequestBody PlanShareDto planshareDto){
+        try {
+            planService.planShareOk(planshareDto);
+            return new ResponseEntity<Void>(HttpStatus.OK);
         } catch (Exception e) {
             return exceptionHandling(e);
         }

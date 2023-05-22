@@ -1,9 +1,6 @@
 package com.ssafy.plan.model.service;
 
-import com.ssafy.plan.model.PlanDeleteDto;
-import com.ssafy.plan.model.PlanDto;
-import com.ssafy.plan.model.PlanListDto;
-import com.ssafy.plan.model.PlanViewDto;
+import com.ssafy.plan.model.*;
 import com.ssafy.plan.model.mapper.PlanMapper;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +27,6 @@ public class PlanServiceImpl implements PlanService{
         return planMapper.planView(planId);
     }
 
-
-
     @Override
     public void planDelete(PlanDeleteDto planDeleteDto) {
         planMapper.planDelete(planDeleteDto);
@@ -40,6 +35,16 @@ public class PlanServiceImpl implements PlanService{
     @Override
     public int planCountUser(int planId) {
         return planMapper.planCountUser(planId);
+    }
+
+    @Override
+    public void planShare(PlanShareDto planShareDto) {
+        planMapper.planShare(planShareDto);
+    }
+
+    @Override
+    public void planShareOk(PlanShareDto planShareDto) {
+        planMapper.planShareOk(planShareDto);
     }
 
     @Override

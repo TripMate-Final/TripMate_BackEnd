@@ -40,6 +40,7 @@
         on p.plan_id = pa.plan_id
         where user_id = #{userId}
     </select>
+
     <select id="planView" parameterType="int" resultMap="planView">
         select p.plan_id , plan_title , plan_length , plan_day , plan_order , pd.content_id , addr1 , title , first_image
         from plans p
@@ -73,6 +74,14 @@
         from plans_authorization
         where plan_id = #{planId}
     </select>
+
+    <insert id="planShare" parameterType="PlanShareDto">
+
+    </insert>
+
+    <insert id="planShareOk" parameterType="PlanShareDto">
+
+    </insert>
 
 
 
