@@ -1,7 +1,9 @@
 package com.ssafy.attraction.model.service;
 
 import com.ssafy.attraction.model.AttractionDetailDto;
+import com.ssafy.attraction.model.AttractionFilterDto;
 import com.ssafy.attraction.model.AttractionListDto;
+import com.ssafy.attraction.model.AttractionSelectDto;
 import com.ssafy.attraction.model.mapper.AttractionMapper;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +31,10 @@ public class AttractionServiceImpl implements AttractionService{
     @Override
     public void updateHit(int contentId) throws Exception {
         attractionMapper.updateHit(contentId);
+    }
+
+    @Override
+    public List<AttractionFilterDto> attractionSelect(AttractionSelectDto attractionSelectDto) throws Exception {
+        return attractionMapper.attractionSelect(attractionSelectDto);
     }
 }

@@ -1,6 +1,5 @@
 package com.ssafy.attraction.model;
 public class AttractionListDto {
-
     private int contentId;
     private String title;
     private String firstImage;

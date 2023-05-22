@@ -1,9 +1,10 @@
 package com.ssafy.attraction.controller;
 
 import com.ssafy.attraction.model.AttractionDetailDto;
+import com.ssafy.attraction.model.AttractionFilterDto;
 import com.ssafy.attraction.model.AttractionListDto;
+import com.ssafy.attraction.model.AttractionSelectDto;
 import com.ssafy.attraction.model.service.AttractionService;
-import com.ssafy.board.model.BoardDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -27,7 +28,7 @@ public class AttractionController {
         this.attractionService = attractionService;
     }
 
-    @ApiOperation(value = "관광지 검색", notes = "관광지 목록 전체를 보여줍니다.")
+    @ApiOperation(value = "관광지 리스트", notes = "관광지 목록 전체를 보여줍니다.")
     @ApiResponses({@ApiResponse(code=200, message = "관광지 목록 전체 OK"), @ApiResponse(code=500, message = "서버에러")})
     @GetMapping("/list")
     public ResponseEntity<?> attractionListAll(){
@@ -52,6 +53,22 @@ public class AttractionController {
             if (attractionDetailDto != null) {
                 attractionService.updateHit(contentId);
                 return new ResponseEntity<AttractionDetailDto>(attractionDetailDto,HttpStatus.OK);
+            }else{
+                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+            }
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
+
+    @ApiOperation(value = "관광지 검색", notes = "관광지 검색.")
+    @ApiResponses({@ApiResponse(code=200, message = "관광지 검색 OK"), @ApiResponse(code=500, message = "서버에러")})
+    @PostMapping("/select")
+    public ResponseEntity<?> attractionSelect(@RequestBody AttractionSelectDto attractionSelectDto){
+        try{
+            List<AttractionFilterDto> list = attractionService.attractionSelect(attractionSelectDto);
+            if(list != null && !list.isEmpty()){
+                return new ResponseEntity<List<AttractionFilterDto>>(list,HttpStatus.OK);
             }else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }

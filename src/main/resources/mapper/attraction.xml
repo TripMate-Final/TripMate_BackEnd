@@ -3,7 +3,26 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="com.ssafy.attraction.model.mapper.AttractionMapper">
+	<resultMap id="attractionFilter" type="attractionFilterDto">
+		<result column="content_id" property="contentId"/>
+		<result column="title" property="title"/>
+		<result column="first_image" property="firstImage"/>
+		<result column="addr1" property="addr1"/>
+		<result column="zipcode" property="zipCode"/>
+		<result column="overview" property="overview"/>
+		<result column="latitude" property="latitude"/>
+		<result column="longitude" property="longitude"/>
+		<result column="sido_name" property="sidoName"/>
+		<result column="gugun_name" property="gugunName"/>
+		<result column="category_name" property="categoryName"/>
+		<result column="cat1_name" property="cat1Name"/>
+		<result column="cat2_name" property="cat2Name"/>
+		<result column="cat3_name" property="cat3Name"/>
+		<result column="hit" property="hit"/>
+		<result column="like_cnt" property="likeCnt"/>
+		<result column="is_likes" property="isLikes"/>
 
+	</resultMap>
 	<!-- 관광지 목록 전체 -->
 	<select id="attractionListAll" resultType="AttractionListDto">
 		select info.content_id, info.title title, info.first_image first_image, sido.sido_name, gugun.gugun_name, category.category_name, tag.cat1_name, tag.cat2_name, tag.cat3_name, info.hit, count(likes.likes_id) like_cnt
@@ -34,4 +53,38 @@
 		hit = hit+1
 		where content_id = #{content_id}
 	</update>
+
+
+	<select id="attractionSelect" parameterType="AttractionSelectDto" resultMap="attractionFilter">
+		select ai.content_id, ai.title, ai.first_image,  ai.addr1, ai.zipcode, adc.overview, ai.latitude, ai.longitude, si.sido_name, gu.gugun_name, ac.category_name, tag.cat1_name, tag.cat2_name, tag.cat3_name, ai.hit , ai.like_cnt
+		<if test="userId != null">, is_likes</if>
+		from attraction_info ai
+		join attraction_category ac
+		on ai.content_type_id = ac.category_code
+		join attraction_description adc
+		on ai.content_id = adc.content_id
+		join attraction_detail ad
+		on ai.content_id = ad.content_id
+		join attraction_tag tag
+		on ad.cat3 = tag.cat3_code
+		join sido si
+		on ai.sido_code = si.sido_code
+		join gugun gu
+		on ai.gugun_code = gu.gugun_code and ai.sido_code = gu.sido_code
+		<if test="userId != null">
+			left join likes l
+			on ai.content_id = l.content_id and l.user_id = #{userId}
+		</if>
+		where ai.title like CONCAT('%',#{text},'%')
+		<if test="sidoName != null">and si.sido_name = #{sidoName}</if>
+		<if test="gugunName != null">and gu.gugun_name = #{gugunName}</if>
+		<if test="categoryName != null">and ac.category_name = #{categoryName}</if>
+		<if test="cat1Name != null">and tag.cat1_name = #{cat1Name}</if>
+		<if test="cat2Name != null">and tag.cat2_name = #{cat2Name}</if>
+		<if test="cat3Name != null">and tag.cat3_name = #{cat3Name}</if>
+		<if test="userId != null">
+			order by l.user_id desc
+		</if>
+		limit #{startPage} , #{endPage};
+	</select>
 </mapper>
