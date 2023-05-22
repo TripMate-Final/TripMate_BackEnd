@@ -9,4 +9,6 @@ import java.util.List;
 public interface AttractionService {
     List<AttractionListDto> attractionListAll() throws Exception;
     AttractionDetailDto attractionDetail(int contentId) throws Exception;
+
+    void updateHit(int contentId) throws Exception;
 }

@@ -99,6 +99,7 @@ public class BoardController {
         try{
             BoardDto boardDto = boardService.boardDetail(boardId);
             if(boardDto != null){
+                boardService.updateHit(boardId);
                 return new ResponseEntity<BoardDto>(boardDto, HttpStatus.OK);
             }else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

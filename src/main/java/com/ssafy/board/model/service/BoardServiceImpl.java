@@ -46,4 +46,9 @@ public class BoardServiceImpl implements BoardService{
     public BoardDto boardDetail(int boardId) throws Exception {
         return boardMapper.boardDetail(boardId);
     }
+
+    @Override
+    public void updateHit(int boardId) throws Exception {
+        boardMapper.updateHit(boardId);
+    }
 }

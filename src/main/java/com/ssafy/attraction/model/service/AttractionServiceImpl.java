@@ -26,4 +26,8 @@ public class AttractionServiceImpl implements AttractionService{
         return attractionMapper.attractionDetail(contentId);
     }
 
+    @Override
+    public void updateHit(int contentId) throws Exception {
+        attractionMapper.updateHit(contentId);
+    }
 }

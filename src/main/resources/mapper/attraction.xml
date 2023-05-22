@@ -28,4 +28,10 @@
 				 left join attraction_description description on info.content_id = description.content_id
 				 left join likes on info.content_id = likes.content_id group by info.content_id;
 	</select>
+
+	<update id="updateHit" parameterType="int">
+		update attraction_info
+		hit = hit+1
+		where content_id = #{content_id}
+	</update>
 </mapper>

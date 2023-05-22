@@ -27,7 +27,7 @@ public class AttractionController {
         this.attractionService = attractionService;
     }
 
-    @ApiOperation(value = "관광지 목록 전체", notes = "관광지 목록 전체를 보여줍니다.")
+    @ApiOperation(value = "관광지 검색", notes = "관광지 목록 전체를 보여줍니다.")
     @ApiResponses({@ApiResponse(code=200, message = "관광지 목록 전체 OK"), @ApiResponse(code=500, message = "서버에러")})
     @GetMapping("/list")
     public ResponseEntity<?> attractionListAll(){
@@ -50,6 +50,7 @@ public class AttractionController {
         try{
             AttractionDetailDto attractionDetailDto= attractionService.attractionDetail(contentId);
             if (attractionDetailDto != null) {
+                attractionService.updateHit(contentId);
                 return new ResponseEntity<AttractionDetailDto>(attractionDetailDto,HttpStatus.OK);
             }else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

@@ -52,7 +52,6 @@ public class UserController {
 			return exceptionHandling(e);
 		}
 	}
-
 	@ApiOperation(value = "회원가입" , notes = "회원을 가입합니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "회원가입 OK") , @ApiResponse(code = 500 , message = "서버에러")})
 	@PostMapping(value = "/regist")

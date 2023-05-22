@@ -21,4 +21,6 @@ public interface BoardMapper {
     List<BoardDto> boardList(Map<String, String> map) throws SQLException;
     // 게시글 내용 보기
     BoardDto boardDetail(int boardId) throws SQLException;
+
+    void updateHit(int boardId) throws SQLException;
 }

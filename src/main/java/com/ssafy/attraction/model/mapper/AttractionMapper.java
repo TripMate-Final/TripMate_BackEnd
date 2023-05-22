@@ -11,4 +11,5 @@ import java.util.List;
 public interface AttractionMapper {
     List<AttractionListDto> attractionListAll() throws SQLException;
     AttractionDetailDto attractionDetail(int contentId) throws SQLException;
+    void updateHit(int contentId) throws SQLException;
 }
