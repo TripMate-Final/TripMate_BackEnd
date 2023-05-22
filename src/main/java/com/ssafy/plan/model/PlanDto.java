@@ -8,7 +8,6 @@ public class PlanDto {
     private int planId;
     private String planTitle;
     private int planLength;
-
     public int getPlanId() {
         return planId;
     }

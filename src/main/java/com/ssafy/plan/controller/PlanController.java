@@ -2,6 +2,7 @@ package com.ssafy.plan.controller;
 
 import com.ssafy.plan.model.PlanDeleteDto;
 import com.ssafy.plan.model.PlanDto;
+import com.ssafy.plan.model.PlanListDto;
 import com.ssafy.plan.model.PlanViewDto;
 import com.ssafy.plan.model.service.PlanService;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +23,17 @@ public class PlanController {
         this.planService = planService;
     }
 
+    @ApiOperation(value = "계획 등록", notes = "계획 추가하기.")
+    @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
+    @PostMapping("/{planList}")
+    public ResponseEntity<?> planRegist(@RequestBody PlanListDto planList){
+        try {
+            planService.planRegist(planList);
+            return new ResponseEntity<Void>(HttpStatus.OK);
+        } catch (Exception e) {
+            return exceptionHandling(e);
+        }
+    }
     @ApiOperation(value = "계획 보기", notes = "계획 보여줌.")
     @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
     @GetMapping("/{planId}")

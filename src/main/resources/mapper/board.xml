@@ -22,18 +22,19 @@
 
 	<!-- 게시글 목록 -->
 	<select id="boardList" parameterType="map" resultMap="board">
-		select board_title, user_id, board_date, board_content, board_type
+		select board_id , board_title, user_id, board_date, board_content, board_type , hit
 		from boards
 		<trim prefix="where" suffixOverrides="and">
 			<if test="boardType != null and boardType != ''">board_type = #{boardType} and</if>
 			<if test="keyword != null and keyword != ''">board_content like concat('%', #{keyword}, '%')</if>
 		</trim>
+		order by board_id desc
 	</select>
 
 	<!-- 게시글 등록 -->
 	<insert id="boardWrite" parameterType="BoardDto">
-		insert into boards(board_title, user_id, board_date, board_content, board_type)
-		values(#{boardTitle}, #{userId}, now(), #{boardContent}, #{boardType});
+		insert into boards(board_title, user_id, board_date, board_content, board_type , hit)
+		values(#{boardTitle}, #{userId}, now(), #{boardContent}, #{boardType} , 0);
 	</insert>
 
 	<!-- 게시글 삭제 -->
@@ -44,7 +45,7 @@
 
 	<!-- 게시글 상세 -->
 	<select id="boardDetail" parameterType="int" resultMap="board">
-		select board_title, user_id, board_date, board_content, board_type
+		select board_id , board_title, user_id, board_date, board_content, board_type , hit
 		from boards
 		where board_id = #{boardId};
 	</select>

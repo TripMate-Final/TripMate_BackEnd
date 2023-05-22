@@ -9,6 +9,16 @@ public class BoardDto {
     private String boardContent;
     private String boardType;
 
+    private int hit;
+
+    public int getHit() {
+        return hit;
+    }
+
+    public void setHit(int hit) {
+        this.hit = hit;
+    }
+
     public int getBoardId() {
         return boardId;
     }

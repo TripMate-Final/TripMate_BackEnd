@@ -2,6 +2,7 @@ package com.ssafy.plan.model.service;
 
 import com.ssafy.plan.model.PlanDeleteDto;
 import com.ssafy.plan.model.PlanDto;
+import com.ssafy.plan.model.PlanListDto;
 import com.ssafy.plan.model.PlanViewDto;
 import com.ssafy.plan.model.mapper.PlanMapper;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,10 @@ public class PlanServiceImpl implements PlanService{
         this.planMapper = planMapper;
     }
 
+    @Override
+    public void planRegist(PlanListDto planList) {
+        planMapper.planRegist(planList);
+    }
     @Override
     public List<PlanDto> planListAll(String userId) {
         return planMapper.planListAll(userId);

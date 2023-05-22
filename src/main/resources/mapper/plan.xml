@@ -4,22 +4,34 @@
 
 <mapper namespace="com.ssafy.plan.model.mapper.PlanMapper">
     <resultMap id="plan" type="planDto">
-        <result column="p.plan_id" property="planId" />
+        <result column="plan_id" property="planId" />
         <result column="plan_title" property="planTitle" />
         <result column="plan_length" property="planLength" />
     </resultMap>
 
     <resultMap id="planView" type="planViewDto">
-        <result column="p.plan_id" property="planId" />
+        <result column="plan_id" property="planId" />
         <result column="plan_title" property="planTitle" />
         <result column="plan_length" property="planLength" />
         <result column="plan_day" property="planDay" />
         <result column="plan_order" property="planOrder" />
-        <result column="pd.content_id" property="contentId" />
+        <result column="content_id" property="contentId" />
         <result column="addr1" property="addr1" />
         <result column="title" property="title" />
         <result column="first_image" property="firstImage" />
     </resultMap>
+
+    <insert id="planRegist" parameterType="PlanListDto">
+        insert into plans(plan_title , plan_start_date, plan_end_date, plan_length)
+        values(#{planTitle} , now() ,now() , #{planLength});
+        insert into plans_authorization(plan_id , user_id)
+        values((select Max(plan_id) from plans) , #{userId});
+        insert into plans_detail(plan_id , content_id , plan_day , plan_order)
+        values
+        <foreach collection="planList" item = "item" separator=",">
+            ((select Max(plan_id) from plans) , #{item.contentId} , #{item.planDay} , #{item.planOrder})
+        </foreach>
+    </insert>
 
     <select id="planListAll" parameterType="String" resultMap="plan">
         select p.plan_id , plan_title , plan_length
@@ -61,5 +73,7 @@
         from plans_authorization
         where plan_id = #{planId}
     </select>
+
+
 
 </mapper>
