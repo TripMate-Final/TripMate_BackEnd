@@ -1,9 +1,11 @@
 package com.ssafy.user.model.service;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
 import com.ssafy.user.model.UserDto;
+import com.ssafy.user.model.UserLikeDto;
 
 public interface UserService {
 	int userIdCheck(String userId) throws Exception;
@@ -16,4 +18,5 @@ public interface UserService {
 	void friendAccept(Map<String , String> map) throws Exception;
 	void friendDelete(Map<String , String> map) throws Exception;
 	List<String> friendList(String UserId) throws Exception;
+	void userLike(UserLikeDto userLikeDto) throws Exception;
 }

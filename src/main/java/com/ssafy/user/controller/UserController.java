@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.user.model.UserLikeDto;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -175,7 +176,17 @@ public class UserController {
 		}
 	}
 
-
+	@ApiOperation(value = "좋아요 누르기" , notes = "좋아요 올리기")
+	@ApiResponses({@ApiResponse(code = 200 , message = "친구 요청 OK") , @ApiResponse(code = 500 , message = "서버에러")})
+	@PostMapping(value = "/like")
+	public ResponseEntity<?> userLike(@RequestBody UserLikeDto userLikeDto){
+		try {
+			userService.userLike(userLikeDto);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

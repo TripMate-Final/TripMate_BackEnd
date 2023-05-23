@@ -63,6 +63,11 @@
 		where friend_following = #{userId}
 	</select>
 
+	<insert id="userlike" parameterType="UserLikeDto">
+		insert into likes(content_id , user_id , is_likes)
+		values (#{contentId} , #{userId} , 1)
+	</insert>
+
 
 
 </mapper>

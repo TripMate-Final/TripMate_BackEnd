@@ -17,8 +17,13 @@ public class AttractionDetailDto{
     private String cat3Name;
     private int hit;
     private int likeCnt;
+    private int recommendId1;
+    private int recommendId2;
+    private int recommendId3;
+    private int recommendId4;
+    private int recommendId5;
 
-    public AttractionDetailDto(int contentId, String title, String firstImage, String addr1, String zipCode, String overview, Double latitude, Double longitude, String sidoName, String gugunName, String categoryName, String cat1Name, String cat2Name, String cat3Name, int hit, int likeCnt) {
+    public AttractionDetailDto(int contentId, String title, String firstImage, String addr1, String zipCode, String overview, Double latitude, Double longitude, String sidoName, String gugunName, String categoryName, String cat1Name, String cat2Name, String cat3Name, int hit, int likeCnt, int recommendId1, int recommendId2, int recommendId3, int recommendId4, int recommendId5) {
         this.contentId = contentId;
         this.title = title;
         this.firstImage = firstImage;
@@ -35,6 +40,11 @@ public class AttractionDetailDto{
         this.cat3Name = cat3Name;
         this.hit = hit;
         this.likeCnt = likeCnt;
+        this.recommendId1 = recommendId1;
+        this.recommendId2 = recommendId2;
+        this.recommendId3 = recommendId3;
+        this.recommendId4 = recommendId4;
+        this.recommendId5 = recommendId5;
     }
 
     public int getContentId() {
@@ -99,6 +109,26 @@ public class AttractionDetailDto{
 
     public int getLikeCnt() {
         return likeCnt;
+    }
+
+    public int getRecommendId1() {
+        return recommendId1;
+    }
+
+    public int getRecommendId2() {
+        return recommendId2;
+    }
+
+    public int getRecommendId3() {
+        return recommendId3;
+    }
+
+    public int getRecommendId4() {
+        return recommendId4;
+    }
+
+    public int getRecommendId5() {
+        return recommendId5;
     }
 
     @Override

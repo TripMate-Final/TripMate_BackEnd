@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.user.model.UserLikeDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ssafy.user.model.UserDto;
@@ -20,4 +21,6 @@ public interface UserMapper {
 	void friendAccept(Map<String , String> map) throws SQLException;
 	void friendDelete(Map<String , String> map) throws SQLException;
 	List<String> friendList(String userId) throws SQLException;
+
+	void userLike(UserLikeDto userLikeDto) throws SQLException;
 }

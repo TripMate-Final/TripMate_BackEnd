@@ -3,6 +3,7 @@ package com.ssafy.user.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.ssafy.user.model.UserLikeDto;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.user.model.UserDto;
@@ -10,6 +11,8 @@ import com.ssafy.user.model.mapper.UserMapper;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+
 	private UserMapper userMapper;
 
 	public UserServiceImpl(UserMapper userMapper) {
@@ -65,6 +68,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<String> friendList(String userId) throws Exception {
 		return userMapper.friendList(userId);
+	}
+	@Override
+	public void userLike(UserLikeDto userLikeDto) throws Exception {
+		userMapper.userLike(userLikeDto);
 	}
 }
 
