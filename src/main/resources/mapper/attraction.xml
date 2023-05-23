@@ -50,12 +50,32 @@
 
 	<update id="updateHit" parameterType="int">
 		update attraction_info
-		hit = hit+1
+		set hit = hit+1
 		where content_id = #{content_id}
 	</update>
 
 
-	<select id="attractionSelect" parameterType="AttractionSelectDto" resultMap="attractionFilter">
+	<select id="attractionSelectOption" parameterType="AttractionSelectDto" resultMap="attractionFilter">
+		select ai.content_id, ai.title, ai.first_image,  ai.addr1, ai.zipcode, adc.overview, ai.latitude, ai.longitude, si.sido_name, gu.gugun_name, ac.category_name, tag.cat1_name, tag.cat2_name, tag.cat3_name, ai.hit , ai.like_cnt
+		from attraction_info ai
+		join attraction_category ac
+		on ai.content_type_id = ac.category_code
+		join attraction_description adc
+		on ai.content_id = adc.content_id
+		join attraction_detail ad
+		on ai.content_id = ad.content_id
+		join attraction_tag tag
+		on ad.cat3 = tag.cat3_code
+		join sido si
+		on ai.sido_code = si.sido_code
+		join gugun gu
+		on ai.gugun_code = gu.gugun_code and ai.sido_code = gu.sido_code
+		where ai.title like CONCAT('%',#{keyword},'%')
+		or ai.addr1 like CONCAT('%',#{keyword},'%')
+	</select>
+
+
+	<select id="attractionSelect" parameterType="String" resultMap="attractionFilter">
 		select ai.content_id, ai.title, ai.first_image,  ai.addr1, ai.zipcode, adc.overview, ai.latitude, ai.longitude, si.sido_name, gu.gugun_name, ac.category_name, tag.cat1_name, tag.cat2_name, tag.cat3_name, ai.hit , ai.like_cnt
 		<if test="userId != null">, is_likes</if>
 		from attraction_info ai

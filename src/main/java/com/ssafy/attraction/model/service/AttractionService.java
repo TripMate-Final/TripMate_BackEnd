@@ -15,4 +15,6 @@ public interface AttractionService {
     void updateHit(int contentId) throws Exception;
 
     List<AttractionFilterDto> attractionSelect(AttractionSelectDto attractionSelectDto) throws Exception;
+
+    List<AttractionFilterDto> attractionSelectOption(String keyword) throws Exception;
 }

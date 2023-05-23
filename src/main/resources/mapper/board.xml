@@ -64,7 +64,7 @@
 	<!-- 조회수 -->
 	<update id="updateHit" parameterType="int">
 		update boards
-		hit = hit+1
+		set hit = hit+1
 		where board_id = #{boardId}
 	</update>
 
