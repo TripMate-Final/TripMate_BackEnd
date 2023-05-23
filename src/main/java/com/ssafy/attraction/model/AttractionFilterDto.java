@@ -17,7 +17,7 @@ public class AttractionFilterDto {
     private String cat3Name;
     private int hit;
     private int likeCnt;
-    private int isLike;
+    private int isLikes;
 
     public int getContentId() {
         return contentId;
@@ -148,10 +148,10 @@ public class AttractionFilterDto {
     }
 
     public int getIsLike() {
-        return isLike;
+        return isLikes;
     }
 
-    public void setIsLike(int isLike) {
-        this.isLike = isLike;
+    public void setIsLike(int isLikes) {
+        this.isLikes = isLikes;
     }
 }
