@@ -22,6 +22,13 @@
 		<result column="like_cnt" property="likeCnt"/>
 		<result column="is_likes" property="isLikes"/>
 	</resultMap>
+
+	<resultMap id="attractionPreview" type="attractionPreviewDto">
+		<result column="content_id" property="contentId"/>
+		<result column="title" property="title"/>
+		<result column="first_image" property="firstImage"/>
+	</resultMap>
+
 	<!-- 관광지 목록 전체 -->
 	<select id="attractionListAll" resultType="AttractionListDto">
 		select info.content_id, info.title title, info.first_image first_image, sido.sido_name, gugun.gugun_name, category.category_name, tag.cat1_name, tag.cat2_name, tag.cat3_name, info.hit, count(likes.likes_id) like_cnt
@@ -109,5 +116,12 @@
 			order by l.user_id desc
 		</if>
 		limit #{startPage} , #{endPage};
+	</select>
+
+
+	<select id="attractionPreview" parameterType="int" resultMap="attractionPreview">
+		select content_id , title , first_image
+		from attraction_info
+		where content_id = #{contentId}
 	</select>
 </mapper>

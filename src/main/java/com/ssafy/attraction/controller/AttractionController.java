@@ -1,9 +1,6 @@
 package com.ssafy.attraction.controller;
 
-import com.ssafy.attraction.model.AttractionDetailDto;
-import com.ssafy.attraction.model.AttractionFilterDto;
-import com.ssafy.attraction.model.AttractionListDto;
-import com.ssafy.attraction.model.AttractionSelectDto;
+import com.ssafy.attraction.model.*;
 import com.ssafy.attraction.model.service.AttractionService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -43,16 +40,14 @@ public class AttractionController {
             return exceptionHandling(e);
         }
     }
-    @ApiOperation(value = "관광지 상세", notes = "관광지 상세정보를 보여줍니다.")
-    @ApiResponses({@ApiResponse(code=200, message = "관광지 상세보기 OK"), @ApiResponse(code=500, message = "서버에러")})
-    @GetMapping("/{contentId}")
-    public ResponseEntity<?> attractionDetail(@PathVariable("contentId") int contentId){
-        logger.debug("attraction detail :::" + contentId);
+    @ApiOperation(value = "관광지 미리보기", notes = "관광지 ")
+    @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
+    @GetMapping("/preview/{contentId}")
+    public ResponseEntity<?> attractionPreview(@PathVariable("contentId") int contentId){
         try{
-            AttractionDetailDto attractionDetailDto= attractionService.attractionDetail(contentId);
-            if (attractionDetailDto != null) {
-                attractionService.updateHit(contentId);
-                return new ResponseEntity<AttractionDetailDto>(attractionDetailDto,HttpStatus.OK);
+            AttractionPreviewDto attractionPreviewDto = attractionService.attractionPreview(contentId);
+            if (attractionPreviewDto != null) {
+                return new ResponseEntity<AttractionPreviewDto>(attractionPreviewDto,HttpStatus.OK);
             }else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
@@ -89,6 +84,24 @@ public class AttractionController {
             List<AttractionFilterDto> list = attractionService.attractionSelectOption(attractionSelectDto);
             if(list != null && !list.isEmpty()){
                 return new ResponseEntity<List<AttractionFilterDto>>(list,HttpStatus.OK);
+            }else{
+                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+            }
+        }catch (Exception e){
+            return exceptionHandling(e);
+        }
+    }
+
+    @ApiOperation(value = "관광지 이미지 카드", notes = "관광지 상세정보를 보여줍니다.")
+    @ApiResponses({@ApiResponse(code=200, message = "관광지 상세보기 OK"), @ApiResponse(code=500, message = "서버에러")})
+    @GetMapping("/{contentId}")
+    public ResponseEntity<?> attractionDetail(@PathVariable("contentId") int contentId){
+        logger.debug("attraction detail :::" + contentId);
+        try{
+            AttractionDetailDto attractionDetailDto= attractionService.attractionDetail(contentId);
+            if (attractionDetailDto != null) {
+                attractionService.updateHit(contentId);
+                return new ResponseEntity<AttractionDetailDto>(attractionDetailDto,HttpStatus.OK);
             }else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }

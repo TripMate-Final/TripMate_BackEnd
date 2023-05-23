@@ -1,10 +1,8 @@
 package com.ssafy.attraction.model.mapper;
 
-import com.ssafy.attraction.model.AttractionDetailDto;
-import com.ssafy.attraction.model.AttractionFilterDto;
-import com.ssafy.attraction.model.AttractionListDto;
-import com.ssafy.attraction.model.AttractionSelectDto;
+import com.ssafy.attraction.model.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -16,4 +14,5 @@ public interface AttractionMapper {
     void updateHit(int contentId) throws SQLException;
     List<AttractionFilterDto> attractionSelect(AttractionSelectDto attractionSelectDto) throws SQLException;
     List<AttractionFilterDto> attractionSelectOption(AttractionSelectDto attractionSelectDto) throws SQLException;
+    AttractionPreviewDto attractionPreview(int contentId) throws SQLException;
 }
