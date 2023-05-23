@@ -61,29 +61,32 @@ public class AttractionController {
         }
     }
 
-    @ApiOperation(value = "관광지 검색", notes = "관광지 검색.")
-    @ApiResponses({@ApiResponse(code=200, message = "관광지 검색 OK"), @ApiResponse(code=500, message = "서버에러")})
-    @PostMapping("/select")
-    public ResponseEntity<?> attractionSelect(@RequestBody AttractionSelectDto attractionSelectDto){
-        try{
-            List<AttractionFilterDto> list = attractionService.attractionSelect(attractionSelectDto);
-            if(list != null && !list.isEmpty()){
-                return new ResponseEntity<List<AttractionFilterDto>>(list,HttpStatus.OK);
-            }else{
-                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-            }
-        }catch (Exception e){
-            return exceptionHandling(e);
-        }
-    }
+//    @ApiOperation(value = "관광지 검색", notes = "관광지 검색.")
+//    @ApiResponses({@ApiResponse(code=200, message = "관광지 검색 OK"), @ApiResponse(code=500, message = "서버에러")})
+//    @PostMapping("/select")
+//    public ResponseEntity<?> attractionSelect(@RequestBody AttractionSelectDto attractionSelectDto){
+//        try{
+//            List<AttractionFilterDto> list = attractionService.attractionSelect(attractionSelectDto);
+//            if(list != null && !list.isEmpty()){
+//                return new ResponseEntity<List<AttractionFilterDto>>(list,HttpStatus.OK);
+//            }else{
+//                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//            }
+//        }catch (Exception e){
+//            return exceptionHandling(e);
+//        }
+//    }
 
 
     @ApiOperation(value = "관광지 검색", notes = "관광지 검색.")
     @ApiResponses({@ApiResponse(code=200, message = "관광지 검색 OK"), @ApiResponse(code=500, message = "서버에러")})
-    @GetMapping("/select/{keyword}")
-    public ResponseEntity<?> attractionSelectOption(@PathVariable("keyword") String keyword){
+    @GetMapping("/select")
+    public ResponseEntity<?> attractionSelectOption(@RequestParam("keyword") String keyword,@RequestParam("categoryCode") int categoryCode){
+        logger.debug(keyword  + ":::" + categoryCode);
         try{
-            List<AttractionFilterDto> list = attractionService.attractionSelectOption(keyword);
+            AttractionSelectDto attractionSelectDto = new AttractionSelectDto(keyword,categoryCode);
+            logger.debug("select : " + attractionSelectDto);
+            List<AttractionFilterDto> list = attractionService.attractionSelectOption(attractionSelectDto);
             if(list != null && !list.isEmpty()){
                 return new ResponseEntity<List<AttractionFilterDto>>(list,HttpStatus.OK);
             }else{

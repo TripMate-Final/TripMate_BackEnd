@@ -16,5 +16,5 @@ public interface AttractionService {
 
     List<AttractionFilterDto> attractionSelect(AttractionSelectDto attractionSelectDto) throws Exception;
 
-    List<AttractionFilterDto> attractionSelectOption(String keyword) throws Exception;
+    List<AttractionFilterDto> attractionSelectOption(AttractionSelectDto attractionSelectDto) throws Exception;
 }

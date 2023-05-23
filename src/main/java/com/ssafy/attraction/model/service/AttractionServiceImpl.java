@@ -39,7 +39,7 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
-    public List<AttractionFilterDto> attractionSelectOption(String keyword) throws Exception {
-        return attractionMapper.attractionSelectOption(keyword);
+    public List<AttractionFilterDto> attractionSelectOption(AttractionSelectDto attractionSelectDto) throws Exception {
+        return attractionMapper.attractionSelectOption(attractionSelectDto);
     }
 }

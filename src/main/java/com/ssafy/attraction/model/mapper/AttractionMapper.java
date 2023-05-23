@@ -15,5 +15,5 @@ public interface AttractionMapper {
     AttractionDetailDto attractionDetail(int contentId) throws SQLException;
     void updateHit(int contentId) throws SQLException;
     List<AttractionFilterDto> attractionSelect(AttractionSelectDto attractionSelectDto) throws SQLException;
-    List<AttractionFilterDto> attractionSelectOption(String keyword) throws SQLException;
+    List<AttractionFilterDto> attractionSelectOption(AttractionSelectDto attractionSelectDto) throws SQLException;
 }

@@ -21,7 +21,6 @@
 		<result column="hit" property="hit"/>
 		<result column="like_cnt" property="likeCnt"/>
 		<result column="is_likes" property="isLikes"/>
-
 	</resultMap>
 	<!-- 관광지 목록 전체 -->
 	<select id="attractionListAll" resultType="AttractionListDto">
@@ -70,8 +69,12 @@
 		on ai.sido_code = si.sido_code
 		join gugun gu
 		on ai.gugun_code = gu.gugun_code and ai.sido_code = gu.sido_code
-		where ai.title like CONCAT('%',#{keyword},'%')
-		or ai.addr1 like CONCAT('%',#{keyword},'%')
+		where
+		<if test="categoryCode != 10">
+			ai.content_type_id = #{categoryCode} and
+		</if>
+		(ai.title like CONCAT('%',#{keyword},'%')
+		or ai.addr1 like CONCAT('%',#{keyword},'%'))
 	</select>
 
 
