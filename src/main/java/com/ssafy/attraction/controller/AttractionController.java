@@ -76,10 +76,10 @@ public class AttractionController {
     @ApiOperation(value = "관광지 검색", notes = "관광지 검색.")
     @ApiResponses({@ApiResponse(code=200, message = "관광지 검색 OK"), @ApiResponse(code=500, message = "서버에러")})
     @GetMapping("/select")
-    public ResponseEntity<?> attractionSelectOption(@RequestParam("keyword") String keyword,@RequestParam("categoryCode") int categoryCode){
-        logger.debug(keyword  + ":::" + categoryCode);
+    public ResponseEntity<?> attractionSelectOption(@RequestParam("keyword") String keyword,@RequestParam("categoryCode") int categoryCode , @RequestParam("page") int page){
+        logger.debug(keyword  + ":::" + categoryCode + ":::" + page);
         try{
-            AttractionSelectDto attractionSelectDto = new AttractionSelectDto(keyword,categoryCode);
+            AttractionSelectDto attractionSelectDto = new AttractionSelectDto(keyword,categoryCode , page * 15);
             logger.debug("select : " + attractionSelectDto);
             List<AttractionFilterDto> list = attractionService.attractionSelectOption(attractionSelectDto);
             if(list != null && !list.isEmpty()){

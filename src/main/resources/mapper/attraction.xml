@@ -81,6 +81,7 @@
 		</if>
 		(ai.title like CONCAT('%',#{keyword},'%')
 		or ai.addr1 like CONCAT('%',#{keyword},'%'))
+		limit 15 offset #{page}
 	</select>
 
 
