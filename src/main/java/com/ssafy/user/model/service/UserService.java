@@ -1,6 +1,7 @@
 package com.ssafy.user.model.service;
 
 import com.ssafy.user.model.UserDto;
+import com.ssafy.user.model.UserFindDto;
 import com.ssafy.user.model.UserLikeDto;
 
 import java.util.List;
@@ -10,8 +11,8 @@ public interface UserService {
 	public UserDto userInfo(String userId) throws Exception;
 	UserDto userLogin(UserDto userDto) throws Exception;
 	void userRegist(UserDto userDto) throws Exception;
-	UserDto userFindPassword(Map<String , String> map) throws Exception;
-	void userDelete(UserDto userDto) throws Exception;
+	UserDto userFindPassword(UserFindDto userFindDto) throws Exception;
+	void userDelete(String userId) throws Exception;
 	void userUpdate(UserDto userDto) throws Exception;
 	void friendRequest(Map<String , String> map) throws Exception;
 	void friendAccept(Map<String , String> map) throws Exception;

@@ -1,6 +1,7 @@
 package com.ssafy.user.model.service;
 
 import com.ssafy.user.model.UserDto;
+import com.ssafy.user.model.UserFindDto;
 import com.ssafy.user.model.UserLikeDto;
 import com.ssafy.user.model.mapper.UserMapper;
 import org.apache.ibatis.session.SqlSession;
@@ -39,13 +40,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserDto userFindPassword(Map<String , String> map) throws Exception {
-		return userMapper.userFindPassword(map);
+	public UserDto userFindPassword(UserFindDto userFindDto) throws Exception {
+		return userMapper.userFindPassword(userFindDto);
 	}
 
 	@Override
-	public void userDelete(UserDto userDto) throws Exception {
-		userMapper.userDelete(userDto);
+	public void userDelete(String userId) throws Exception {
+		userMapper.userDelete(userId);
 	}
 
 	@Override

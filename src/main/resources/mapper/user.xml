@@ -28,7 +28,7 @@
 		values (#{userId}, #{userEmail}, #{userName}, #{userPassword})
 	</insert>
 
-	<delete id="userDelete" parameterType="UserDto" >
+	<delete id="userDelete" parameterType="String" >
 		delete
 		from users
 		where user_id = #{userId}
@@ -92,7 +92,5 @@
 		set token = #{token, jdbcType=VARCHAR}
 		where user_id = #{userId}
 	</update>
-
-
 
 </mapper>

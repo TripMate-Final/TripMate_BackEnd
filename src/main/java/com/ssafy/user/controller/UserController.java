@@ -1,6 +1,7 @@
 package com.ssafy.user.controller;
 
 import com.ssafy.user.model.UserDto;
+import com.ssafy.user.model.UserFindDto;
 import com.ssafy.user.model.UserLikeDto;
 import com.ssafy.user.model.service.JwtServiceImpl;
 import com.ssafy.user.model.service.UserService;
@@ -33,6 +34,7 @@ public class UserController {
 		this.userService = userService;
 		this.jwtService = jwtService;
 	}
+
 	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
 	@GetMapping("/info/{userId}")
 	public ResponseEntity<Map<String, Object>> getInfo(
@@ -148,10 +150,9 @@ public class UserController {
 	@ApiOperation(value = "회원삭제" , notes = "회원을 삭제합니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "회원삭제 OK") , @ApiResponse(code = 500 , message = "서버에러")})
 	@DeleteMapping(value = "/delete")
-	public ResponseEntity<?> userDelete(HttpSession session){
-		UserDto userDto= (UserDto) session.getAttribute("userinfo");
+	public ResponseEntity<?> userDelete(@PathVariable("userId") String userId){
 		try {
-			userService.userDelete(userDto);
+			userService.userDelete(userId);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
@@ -242,14 +243,11 @@ public class UserController {
 	@ApiOperation(value = "비밀번호 찾기" , notes = "비밀번호를 등록된 email로 보내줍니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "비밀번호 찾기 OK") , @ApiResponse(code = 500 , message = "서버에러")})
 	@PutMapping(value = "/find")
-	public ResponseEntity<?> userPasswordFind(@PathVariable("user_id") String userId , @PathVariable("user_email") String userEmail){
-		Map<String , String> map = new HashMap<>();
-		map.put("userId" , userId);
-		map.put("userEmail" , userEmail);
-		map.put("userPassword" , "랜덤");
+	public ResponseEntity<?> userPasswordFind(@RequestBody UserFindDto userFindDto){
+		System.out.println(userFindDto);
 		try {
-			UserDto userDto = userService.userFindPassword(map);
-			return new ResponseEntity<UserDto>(userDto , HttpStatus.OK);
+			UserDto userDto = userService.userFindPassword(userFindDto);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
