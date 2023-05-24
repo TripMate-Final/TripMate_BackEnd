@@ -23,7 +23,7 @@ public class PlanServiceImpl implements PlanService{
     }
 
     @Override
-    public List<PlanViewDto> planView(int planId) {
+    public List<GetPlanDto> planView(int planId) {
         return planMapper.planView(planId);
     }
 

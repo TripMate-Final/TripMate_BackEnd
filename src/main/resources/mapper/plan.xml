@@ -9,16 +9,25 @@
         <result column="plan_length" property="planLength" />
     </resultMap>
 
-    <resultMap id="planView" type="planViewDto">
+    <resultMap id="planView" type="getPlanDto">
         <result column="plan_id" property="planId" />
         <result column="plan_title" property="planTitle" />
         <result column="plan_length" property="planLength" />
         <result column="plan_day" property="planDay" />
         <result column="plan_order" property="planOrder" />
         <result column="content_id" property="contentId" />
-        <result column="addr1" property="addr1" />
         <result column="title" property="title" />
         <result column="first_image" property="firstImage" />
+        <result column="addr1" property="addr1" />
+        <result column="latitude" property="latitude"/>
+        <result column="longitude" property="longitude"/>
+        <result column="sido_name" property="sidoName"/>
+        <result column="gugun_name" property="gugunName"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="cat1_name" property="cat1Name"/>
+        <result column="cat2_name" property="cat2Name"/>
+        <result column="cat3_name" property="cat3Name"/>
+        <result column="like_cnt" property="likeCnt"/>
     </resultMap>
 
     <insert id="planRegist" parameterType="PlanListDto">
@@ -44,16 +53,21 @@
     </select>
 
     <select id="planView" parameterType="int" resultMap="planView">
-        select p.plan_id , plan_title , plan_length , plan_day , plan_order , pd.content_id , addr1 , title , first_image
-        from plans p
-        join plans_authorization pa
-        on p.plan_id = pa.plan_id
-        join plans_detail pd
-        on p.plan_id = pd.plan_id
-        join attraction_info a
-        on pd.content_id = a.content_id
-        where p.plan_id = #{planId}
-        order by plan_day , plan_order
+        SELECT plan.plan_id, plan.plan_title, plan.plan_length, plan.plan_day,plan.plan_order, ai.content_id, ai.title, ai.first_image, ai.addr1, ai.zipcode, ai.latitude, ai.longitude, s.sido_name, g.gugun_name, ac.category_name, at.cat1_name, at.cat2_name, at.cat3_name, ai.like_cnt
+        FROM
+            (
+                SELECT p.plan_id, p.plan_title, p.plan_length, pd.plan_day, pd.plan_order, pd.content_id
+                FROM plans p
+                         JOIN plans_detail pd ON p.plan_id = pd.plan_id
+                WHERE p.plan_id = #{planId}
+            ) plan
+                LEFT JOIN attraction_info ai ON ai.content_id = plan.content_id
+                LEFT JOIN sido s ON ai.sido_code = s.sido_code
+                LEFT JOIN gugun g ON ai.gugun_code = g.gugun_code AND ai.sido_code = g.sido_code
+                LEFT JOIN attraction_category ac ON ai.content_type_id = ac.category_code
+                LEFT JOIN attraction_detail ad ON ai.content_id = ad.content_id
+                LEFT JOIN attraction_tag at ON ad.cat3 = at.cat3_code
+
     </select>
 
     <delete id="planDelete" parameterType="planDeleteDto">

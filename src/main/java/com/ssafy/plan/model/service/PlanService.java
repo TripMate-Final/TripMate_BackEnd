@@ -7,7 +7,7 @@ import java.util.List;
 public interface PlanService {
     void planRegist(PlanListDto planList);
     List<PlanDto> planListAll(String userId);
-    List<PlanViewDto> planView(int planId);
+    List<GetPlanDto> planView(int planId);
 
 
     void planDelete(PlanDeleteDto planDeleteDto);

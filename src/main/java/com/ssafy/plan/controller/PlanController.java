@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -39,9 +40,55 @@ public class PlanController {
     @GetMapping("/{planId}")
     public ResponseEntity<?> planView(@PathVariable("planId") int planId){
         try {
-            List<PlanViewDto> list = planService.planView(planId);
-            if(list != null && !list.isEmpty()) {
-                return new ResponseEntity<List<PlanViewDto>>(list, HttpStatus.OK);
+            List<GetPlanDto> getList = planService.planView(planId);
+            List<PlanViewDto> viewList = new ArrayList<>();
+            PlanViewListDto planViewListDto = new PlanViewListDto();
+            String title = "";
+            int planLength = -1;
+            int currentDay = -1;
+            PlanViewDto planViewDto = null;
+            for(GetPlanDto getPlanDto : getList){
+                logger.debug(getPlanDto.toString());
+                int day = getPlanDto.getPlanDay();
+                if(day != currentDay){
+                    if(planViewDto != null){
+                        viewList.add(planViewDto);
+                    }
+                    planViewDto = new PlanViewDto();
+                    planViewDto.setDay(day);
+                    planViewDto.setElements(new ArrayList<>());
+                    currentDay = day;
+                    title = getPlanDto.getPlanTitle();
+                    planLength = getPlanDto.getPlanLength();
+                }
+                ContentDto contentDto = new ContentDto();
+                contentDto.setContentId(getPlanDto.getContentId());
+                contentDto.setTitle(getPlanDto.getTitle());
+                contentDto.setFirstImage(getPlanDto.getFirstImage());
+                contentDto.setAddr1(getPlanDto.getAddr1());
+                contentDto.setLatitude(getPlanDto.getLatitude());
+                contentDto.setLongitude(getPlanDto.getLongitude());
+                contentDto.setSidoName(getPlanDto.getSidoName());
+                contentDto.setGugunName(getPlanDto.getGugunName());
+                contentDto.setCategoryName(getPlanDto.getCategoryName());
+                contentDto.setCat1Name(getPlanDto.getCat1Name());
+                contentDto.setCat2Name(getPlanDto.getCat2Name());
+                contentDto.setCat3Name(getPlanDto.getCat3Name());
+                contentDto.setLikeCnt(getPlanDto.getLikeCnt());
+                logger.debug(contentDto.toString());
+                planViewDto.getElements().add(contentDto);
+            }
+            if(planViewDto != null){
+                viewList.add(planViewDto);
+            }
+            logger.debug(planViewDto.toString());
+            planViewListDto.setPlanId(planId);
+            planViewListDto.setPlanTitle(title);
+            planViewListDto.setPlanLength(planLength);
+            planViewListDto.setPlanList(viewList);
+            logger.debug(planViewListDto.toString());
+            if(planViewListDto != null) {
+                return new ResponseEntity<PlanViewListDto>(planViewListDto, HttpStatus.OK);
             }else{
                 return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
             }
