@@ -110,6 +110,7 @@ public class UserController {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		String token = request.getHeader("refresh-token");
+		System.out.println(1234 + " " + userDto.toString());
 		logger.debug("token : {}, userDto : {}", token, userDto);
 		if (jwtService.checkToken(token)) {
 			if (token.equals(userService.getRefreshToken(userDto.getUserId()))) {
