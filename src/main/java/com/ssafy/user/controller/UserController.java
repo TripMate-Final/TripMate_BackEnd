@@ -259,6 +259,7 @@ public class UserController {
 	public ResponseEntity<?> userLike(@RequestBody UserLikeDto userLikeDto){
 		try {
 			userService.userLike(userLikeDto);
+			userService.updateAttractionLike(userLikeDto);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);

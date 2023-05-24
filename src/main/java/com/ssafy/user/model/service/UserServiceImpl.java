@@ -79,6 +79,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public void updateAttractionLike(UserLikeDto userLikeDto) throws Exception {
+		userMapper.updateAttractionLike(userLikeDto);
+	}
+
+	@Override
 	public void saveRefreshToken(String userId, String refreshToken) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);

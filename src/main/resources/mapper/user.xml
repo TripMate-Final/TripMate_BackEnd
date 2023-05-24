@@ -70,10 +70,16 @@
 		where friend_following = #{userId}
 	</select>
 
-	<insert id="userlike" parameterType="UserLikeDto">
+	<insert id="userLike" parameterType="UserLikeDto">
 		insert into likes(content_id , user_id , is_likes)
 		values (#{contentId} , #{userId} , 1)
 	</insert>
+
+	<update id="updateAttractionLike" parameterType="UserLikeDto">
+		update attraction_info
+		set like_cnt = like_cnt+1
+		where content_id = #{contentId}
+	</update>
 
 	<select id="getRefreshToken" parameterType="string" resultType="string">
 		select token

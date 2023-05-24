@@ -19,7 +19,7 @@ public interface UserService {
 	void friendDelete(Map<String , String> map) throws Exception;
 	List<String> friendList(String UserId) throws Exception;
 	void userLike(UserLikeDto userLikeDto) throws Exception;
-
+	void updateAttractionLike(UserLikeDto userLikeDto) throws Exception;
 	void saveRefreshToken(String userid, String refreshToken) throws Exception;
 	Object getRefreshToken(String userid) throws Exception;
 	void deleRefreshToken(String userid) throws Exception;
