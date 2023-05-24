@@ -1,33 +1,36 @@
 package com.ssafy.user.model.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.ssafy.user.model.UserDto;
 import com.ssafy.user.model.UserLikeDto;
+import com.ssafy.user.model.mapper.UserMapper;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.user.model.UserDto;
-import com.ssafy.user.model.mapper.UserMapper;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 
 	private UserMapper userMapper;
+	private SqlSession sqlSession;
 
-	public UserServiceImpl(UserMapper userMapper) {
-		super();
+	public UserServiceImpl(UserMapper userMapper, SqlSession sqlSession) {
 		this.userMapper = userMapper;
+		this.sqlSession = sqlSession;
+	}
+
+
+	@Override
+	public UserDto userInfo(String userId) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).userInfo(userId);
 	}
 
 	@Override
 	public UserDto userLogin(UserDto userdto) throws Exception {
 		return userMapper.userLogin(userdto);
-	}
-
-	@Override
-	public int userIdCheck(String userId) throws Exception {
-		return userMapper.userIdCheck(userId);
 	}
 
 	@Override
@@ -72,6 +75,27 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void userLike(UserLikeDto userLikeDto) throws Exception {
 		userMapper.userLike(userLikeDto);
+	}
+
+	@Override
+	public void saveRefreshToken(String userid, String refreshToken) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userid", userid);
+		map.put("token", refreshToken);
+		sqlSession.getMapper(UserMapper.class).saveRefreshToken(map);
+	}
+
+	@Override
+	public Object getRefreshToken(String userId) throws Exception {
+		return sqlSession.getMapper(UserMapper.class).getRefreshToken(userId);
+	}
+
+	@Override
+	public void deleRefreshToken(String userid) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userid", userid);
+		map.put("token", null);
+		sqlSession.getMapper(UserMapper.class).deleteRefreshToken(map);
 	}
 }
 

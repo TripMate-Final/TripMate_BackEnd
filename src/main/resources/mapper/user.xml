@@ -8,7 +8,14 @@
 		<result column="user_email" property="userEmail" />
 		<result column="user_name" property="userName" />
 		<result column="user_position" property="userPosition" />
+
 	</resultMap>
+
+	<select id="userInfo" parameterType="string" resultMap="user">
+		select user_name, user_id, user_email , user_position
+		from users
+		where user_id = #{userId}
+	</select>
 
 	<select id="userLogin" parameterType="UserDto" resultMap="user">
 		select user_id , user_email , user_name , user_position
@@ -67,6 +74,24 @@
 		insert into likes(content_id , user_id , is_likes)
 		values (#{contentId} , #{userId} , 1)
 	</insert>
+
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from users
+		where user_id = #{userId}
+	</select>
+
+	<update id="saveRefreshToken" parameterType="map">
+		update users
+		set token = #{token}
+		where user_id = #{userId}
+	</update>
+
+	<update id="deleteRefreshToken" parameterType="map">
+		update users
+		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{userId}
+	</update>
 
 
 
