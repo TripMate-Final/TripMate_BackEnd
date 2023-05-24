@@ -266,6 +266,20 @@ public class UserController {
 		}
 	}
 
+	@ApiOperation(value = "좋아요확인", notes = ".", response = Map.class)
+	@GetMapping("/isLike")
+	public ResponseEntity<?> isLike(@RequestParam("contentId") int contentId , @RequestParam("userId") String userId) {
+		UserLikeDto userLikeDto = new UserLikeDto();
+		userLikeDto.setUserId(userId);
+		userLikeDto.setContentId(contentId);
+		try {
+			Integer isLike = userService.isLike(userLikeDto);
+			return new ResponseEntity<Integer>(isLike , HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
 	@ApiOperation(value = "로그아웃", notes = "회원 정보를 담은 Token을 제거한다.", response = Map.class)
 	@GetMapping("/logout/{userId}")
 	public ResponseEntity<?> removeToken(@PathVariable("userId") String userId) {
@@ -281,9 +295,7 @@ public class UserController {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-
 	}
-
 
 
 

@@ -26,5 +26,6 @@ public interface UserMapper {
 	void saveRefreshToken(Map<String, String> map) throws SQLException;
 	Object getRefreshToken(String userId) throws SQLException;
 	void deleteRefreshToken(Map<String, String> map) throws SQLException;
+	int isLike(UserLikeDto userLikeDto) throws SQLException;
 
 }

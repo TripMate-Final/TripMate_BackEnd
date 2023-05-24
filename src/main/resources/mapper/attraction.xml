@@ -62,6 +62,7 @@
 
 	<select id="attractionSelectOption" parameterType="AttractionSelectDto" resultMap="attractionFilter">
 		select ai.content_id, ai.title, ai.first_image,  ai.addr1, ai.zipcode, adc.overview, ai.latitude, ai.longitude, si.sido_name, gu.gugun_name, ac.category_name, tag.cat1_name, tag.cat2_name, tag.cat3_name, ai.hit , ai.like_cnt
+		<if test="userId != null">, is_likes</if>
 		from attraction_info ai
 		join attraction_category ac
 		on ai.content_type_id = ac.category_code
@@ -75,12 +76,19 @@
 		on ai.sido_code = si.sido_code
 		join gugun gu
 		on ai.gugun_code = gu.gugun_code and ai.sido_code = gu.sido_code
+		<if test="userId != null">
+			left join likes l
+			on ai.content_id = l.content_id and l.user_id = #{userId}
+		</if>
 		where
 		<if test="categoryCode != 10">
 			ai.content_type_id = #{categoryCode} and
 		</if>
 		(ai.title like CONCAT('%',#{keyword},'%')
 		or ai.addr1 like CONCAT('%',#{keyword},'%'))
+		<if test="userId != null">
+			order by is_likes desc
+		</if>
 		limit 15 offset #{page}
 	</select>
 

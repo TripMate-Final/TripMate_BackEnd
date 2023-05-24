@@ -99,4 +99,11 @@
 		where user_id = #{userId}
 	</update>
 
+	<select id="isLike" parameterType="userLikeDto" resultType="int">
+		select count(is_likes)
+		from likes
+		where content_id = #{contentId} and user_id = #{userId}
+	</select>
+
+
 </mapper>

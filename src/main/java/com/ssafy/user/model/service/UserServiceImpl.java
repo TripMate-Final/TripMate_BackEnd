@@ -55,17 +55,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void friendRequest(Map<String , String> map) throws Exception {
+	public void friendRequest(Map<String, String> map) throws Exception {
 		userMapper.friendRequest(map);
 	}
 
 	@Override
-	public void friendAccept(Map<String , String> map) throws Exception {
+	public void friendAccept(Map<String, String> map) throws Exception {
 		userMapper.friendAccept(map);
 	}
 
 	@Override
-	public void friendDelete(Map<String , String> map) throws Exception {
+	public void friendDelete(Map<String, String> map) throws Exception {
 		userMapper.friendDelete(map);
 	}
 
@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
 	public List<String> friendList(String userId) throws Exception {
 		return userMapper.friendList(userId);
 	}
+
 	@Override
 	public void userLike(UserLikeDto userLikeDto) throws Exception {
 		userMapper.userLike(userLikeDto);
@@ -102,6 +103,11 @@ public class UserServiceImpl implements UserService {
 		map.put("userId", userId);
 		map.put("token", null);
 		sqlSession.getMapper(UserMapper.class).deleteRefreshToken(map);
+	}
+
+	@Override
+	public int isLike(UserLikeDto userLikeDto) throws Exception {
+		return userMapper.isLike(userLikeDto);
 	}
 }
 
