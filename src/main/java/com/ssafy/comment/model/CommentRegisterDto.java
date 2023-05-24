@@ -1,6 +1,6 @@
 package com.ssafy.comment.model;
 
-public class CommentRegistDto {
+public class CommentRegisterDto {
     private int contentId;
     private String userId;
     private int commentNum;

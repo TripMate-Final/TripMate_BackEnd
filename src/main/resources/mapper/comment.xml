@@ -42,7 +42,7 @@
         where comment_id = #{commentId}
     </update>
 
-    <insert id="commentRegist" parameterType="commentRegistDto">
+    <insert id="commentRegister" parameterType="commentRegisterDto">
         <choose>
             <when test="commentNum != 0">
                 insert into comments(content_id , user_id, comment_num, comment_depth, comment_content , comment_date)
@@ -50,7 +50,7 @@
             </when>
             <otherwise>
                 insert into comments(content_id , user_id, comment_num, comment_depth, comment_content , comment_date)
-                select #{contentId} , #{userId}, (select Max(comment_num)+1 from comments), 1, #{commentContent} , now();
+                values (#{contentId} , #{userId}, (select no from (select Max(comment_num)+1 no from comments) nn), 1, #{commentContent} , now());
             </otherwise>
         </choose>
     </insert>

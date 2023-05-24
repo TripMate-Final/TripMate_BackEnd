@@ -2,7 +2,7 @@ package com.ssafy.comment.model.service;
 
 import com.ssafy.comment.model.CommentDeleteDto;
 import com.ssafy.comment.model.CommentDto;
-import com.ssafy.comment.model.CommentRegistDto;
+import com.ssafy.comment.model.CommentRegisterDto;
 import com.ssafy.comment.model.CommentUpdateDto;
 import com.ssafy.comment.model.mapper.CommentMapper;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService{
         commentMapper.commentUpdate(commentUpdateDto);
     }
     @Override
-    public void commentRegist(CommentRegistDto commentRegistDto) throws SQLException {
-        commentMapper.commentRegist(commentRegistDto);
+    public void commentRegister(CommentRegisterDto commentRegisterDto) throws SQLException {
+        commentMapper.commentRegister(commentRegisterDto);
     }
 }
