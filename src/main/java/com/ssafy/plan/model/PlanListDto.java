@@ -5,10 +5,10 @@ import java.util.List;
 public class PlanListDto {
     private List<PlanDetailDto> planList;
     private String planTitle;
-    private String planStartDate;
-    private String planEndDate;
+    private String planCreatedDate;
     private int planLength;
     private String userId;
+
     public List<PlanDetailDto> getPlanList() {
         return planList;
     }
@@ -25,20 +25,12 @@ public class PlanListDto {
         this.planTitle = planTitle;
     }
 
-    public String getPlanStartDate() {
-        return planStartDate;
+    public String getPlanCreatedDate() {
+        return planCreatedDate;
     }
 
-    public void setPlanStartDate(String planStartDate) {
-        this.planStartDate = planStartDate;
-    }
-
-    public String getPlanEndDate() {
-        return planEndDate;
-    }
-
-    public void setPlanEndDate(String planEndDate) {
-        this.planEndDate = planEndDate;
+    public void setPlanCreatedDate(String planCreatedDate) {
+        this.planCreatedDate = planCreatedDate;
     }
 
     public int getPlanLength() {
@@ -48,10 +40,23 @@ public class PlanListDto {
     public void setPlanLength(int planLength) {
         this.planLength = planLength;
     }
+
     public String getUserId() {
         return userId;
     }
+
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "PlanListDto{" +
+                "planList=" + planList +
+                ", planTitle='" + planTitle + '\'' +
+                ", planCreatedDate='" + planCreatedDate + '\'' +
+                ", planLength=" + planLength +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 }

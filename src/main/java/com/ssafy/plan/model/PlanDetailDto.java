@@ -1,15 +1,18 @@
 package com.ssafy.plan.model;
-public class PlanDetailDto {
-    private int planDay;
-    private int planOrder;
-    private int contentId;
 
-    public int getPlanDay() {
-        return planDay;
+import java.util.List;
+
+public class PlanDetailDto {
+    private int day;
+    private int planOrder;
+    private List<PlanContentDto> elements;
+
+    public int getDay() {
+        return day;
     }
 
-    public void setPlanDay(int planDay) {
-        this.planDay = planDay;
+    public void setDay(int day) {
+        this.day = day;
     }
 
     public int getPlanOrder() {
@@ -20,11 +23,20 @@ public class PlanDetailDto {
         this.planOrder = planOrder;
     }
 
-    public int getContentId() {
-        return contentId;
+    public List<PlanContentDto> getElements() {
+        return elements;
     }
 
-    public void setContentId(int contentId) {
-        this.contentId = contentId;
+    public void setElements(List<PlanContentDto> elements) {
+        this.elements = elements;
+    }
+
+    @Override
+    public String toString() {
+        return "PlanDetailDto{" +
+                "day=" + day +
+                ", planOrder=" + planOrder +
+                ", elements=" + elements +
+                '}';
     }
 }

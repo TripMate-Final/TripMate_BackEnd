@@ -22,14 +22,16 @@
     </resultMap>
 
     <insert id="planRegist" parameterType="PlanListDto">
-        insert into plans(plan_title , plan_start_date, plan_end_date, plan_length)
-        values(#{planTitle} , now() ,now() , #{planLength});
+        insert into plans(plan_title , plan_created_date, plan_length)
+        values(#{planTitle} , now() , #{planLength});
         insert into plans_authorization(plan_id , user_id)
         values((select Max(plan_id) from plans) , #{userId});
         insert into plans_detail(plan_id , content_id , plan_day , plan_order)
         values
         <foreach collection="planList" item = "item" separator=",">
-            ((select Max(plan_id) from plans) , #{item.contentId} , #{item.planDay} , #{item.planOrder})
+            <foreach collection="item.elements" index="index" item="element" separator=",">
+                ((select Max(plan_id) from plans) , #{element.contentId} , #{item.day} , #{index})
+            </foreach>
         </foreach>
     </insert>
 

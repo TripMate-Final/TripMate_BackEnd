@@ -1,10 +1,13 @@
 package com.ssafy.plan.controller;
 
+import com.ssafy.attraction.controller.AttractionController;
 import com.ssafy.plan.model.*;
 import com.ssafy.plan.model.service.PlanService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +18,14 @@ import java.util.List;
 @RequestMapping("/plan")
 @CrossOrigin("*")
 public class PlanController {
+    private static final Logger logger =  LoggerFactory.getLogger(AttractionController.class);
     PlanService planService;
     public PlanController(PlanService planService) {
         this.planService = planService;
     }
     @ApiOperation(value = "계획 등록", notes = "계획 추가하기.")
     @ApiResponses({@ApiResponse(code=200, message = "OK"), @ApiResponse(code=500, message = "서버에러")})
-    @PostMapping("/{planList}")
+    @PostMapping("/regist")
     public ResponseEntity<?> planRegist(@RequestBody PlanListDto planList){
         try {
             planService.planRegist(planList);
