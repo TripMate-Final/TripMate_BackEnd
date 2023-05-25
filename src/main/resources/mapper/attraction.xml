@@ -84,16 +84,20 @@
 		<if test="userId != null">
 			left join likes l
 			on ai.content_id = l.content_id and l.user_id = #{userId}
+			where
+			<if test="categoryCode == 77">
+			is_likes = 1 and</if>
 		</if>
-		where
+		<if test="userId == null">
+			where
+		</if>
 		<if test="categoryCode != 10">
-			ai.content_type_id = #{categoryCode} and
+			<if test="categoryCode != 77">
+			ai.content_type_id = #{categoryCode} and</if>
 		</if>
 		(ai.title like CONCAT('%',#{keyword},'%')
-		or ai.addr1 like CONCAT('%',#{keyword},'%'))
-		<if test="userId != null">
-			order by is_likes desc
-		</if>
+		or ai.addr1 like CONCAT('%',#{keyword},'%')
+		or adc.overview like CONCAT('%',#{keyword},'%'))
 		limit 15 offset #{page}
 	</select>
 

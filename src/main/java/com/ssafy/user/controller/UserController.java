@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,8 +150,9 @@ public class UserController {
 
 	@ApiOperation(value = "회원삭제" , notes = "회원을 삭제합니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "회원삭제 OK") , @ApiResponse(code = 500 , message = "서버에러")})
-	@DeleteMapping(value = "/delete")
+	@DeleteMapping(value = "/{userId}")
 	public ResponseEntity<?> userDelete(@PathVariable("userId") String userId){
+		System.out.println(userId);
 		try {
 			userService.userDelete(userId);
 			return new ResponseEntity<Void>(HttpStatus.OK);
