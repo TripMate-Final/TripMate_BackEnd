@@ -1,58 +1,139 @@
 package com.ssafy.user.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.ssafy.user.model.UserDto;
+import com.ssafy.user.model.UserFindDto;
 import com.ssafy.user.model.UserLikeDto;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import com.ssafy.user.model.service.JwtServiceImpl;
+import com.ssafy.user.model.service.UserService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.ssafy.user.model.UserDto;
-import com.ssafy.user.model.service.UserService;
-
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("*")
 public class UserController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
 	private final UserService userService;
+	private JwtServiceImpl jwtService;
 
-	public UserController(UserService userService) {
-		super();
+	public UserController(UserService userService, JwtServiceImpl jwtService) {
 		this.userService = userService;
+		this.jwtService = jwtService;
 	}
 
+	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
+	@GetMapping("/info/{userId}")
+	public ResponseEntity<Map<String, Object>> getInfo(
+			@PathVariable("userId") String userId,
+			HttpServletRequest request) {
+//		logger.debug("userid : {} ", userid);
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		if (jwtService.checkToken(request.getHeader("access-token"))) {
+			logger.info("사용 가능한 토큰!!!");
+			try {
+//				로그인 사용자 정보.
+				UserDto userDto = userService.userInfo(userId);
+				resultMap.put("userInfo", userDto);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			} catch (Exception e) {
+				logger.error("정보조회 실패 : {}", e);
+				resultMap.put("message", e.getMessage());
+				status = HttpStatus.INTERNAL_SERVER_ERROR;
+			}
+		} else {
+			logger.error("사용 불가능 토큰!!!");
+			resultMap.put("message", FAIL);
+			status = HttpStatus.UNAUTHORIZED;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
 	@ApiOperation(value = "회원로그인" , notes = "회원을 로그인합니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "회원로그인 OK") , @ApiResponse(code = 500 , message = "서버에러")})
 	@PostMapping(value = "/login")
-	public ResponseEntity<?> userLogin(@RequestBody UserDto userDto , HttpSession session) {
-		logger.debug("userRegister memberDto : {}", userDto);
+	public ResponseEntity<?> userLogin(@RequestBody UserDto userDto) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
 		System.out.println(userDto.toString());
-//		@PathVariable("userid") String userId;
 		try {
-			userDto = userService.userLogin(userDto);
-			System.out.println(userDto);
-			if(userDto != null) {
-				session.setAttribute("userinfo", userDto);
-				return new ResponseEntity<UserDto>(userDto , HttpStatus.OK);
+			UserDto loginUser = userService.userLogin(userDto);
+			if (loginUser != null) {
+				String accessToken = jwtService.createAccessToken("userId", loginUser.getUserId());// key, data
+				String refreshToken = jwtService.createRefreshToken("userId", loginUser.getUserId());// key, data
+				userService.saveRefreshToken(userDto.getUserId(), refreshToken);
+				logger.debug("로그인 accessToken 정보 : {}", accessToken);
+				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
+				resultMap.put("access-token", accessToken);
+				resultMap.put("refresh-token", refreshToken);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			} else {
+				resultMap.put("message", FAIL);
+				status = HttpStatus.ACCEPTED;
 			}
-			else
-				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
-			return exceptionHandling(e);
+			logger.error("로그인 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+//		try {
+//			userDto = userService.userLogin(userDto);
+//			System.out.println(userDto);
+//			if(userDto != null) {
+//				return new ResponseEntity<UserDto>(userDto , HttpStatus.OK);
+//			}
+//			else
+//				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
 	}
+
+	@ApiOperation(value = "Access Token 재발급", notes = "만료된 access token을 재발급받는다.", response = Map.class)
+	@PostMapping("/refresh")
+	public ResponseEntity<?> refreshToken(@RequestBody UserDto userDto, HttpServletRequest request)
+			throws Exception {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		String token = request.getHeader("refresh-token");
+		System.out.println(1234 + " " + userDto.toString());
+		logger.debug("token : {}, userDto : {}", token, userDto);
+		if (jwtService.checkToken(token)) {
+			if (token.equals(userService.getRefreshToken(userDto.getUserId()))) {
+				String accessToken = jwtService.createAccessToken("userid", userDto.getUserId());
+				logger.debug("token : {}", accessToken);
+				logger.debug("정상적으로 액세스토큰 재발급!!!");
+				resultMap.put("access-token", accessToken);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			}
+		} else {
+			logger.debug("리프레쉬토큰도 사용불!!!!!!!");
+			status = HttpStatus.UNAUTHORIZED;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+
+
+
+
 	@ApiOperation(value = "회원가입" , notes = "회원을 가입합니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "회원가입 OK") , @ApiResponse(code = 500 , message = "서버에러")})
 	@PostMapping(value = "/regist")
@@ -69,10 +150,9 @@ public class UserController {
 	@ApiOperation(value = "회원삭제" , notes = "회원을 삭제합니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "회원삭제 OK") , @ApiResponse(code = 500 , message = "서버에러")})
 	@DeleteMapping(value = "/delete")
-	public ResponseEntity<?> userDelete(HttpSession session){
-		UserDto userDto= (UserDto) session.getAttribute("userinfo");
+	public ResponseEntity<?> userDelete(@PathVariable("userId") String userId){
 		try {
-			userService.userDelete(userDto);
+			userService.userDelete(userId);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
@@ -163,14 +243,11 @@ public class UserController {
 	@ApiOperation(value = "비밀번호 찾기" , notes = "비밀번호를 등록된 email로 보내줍니다")
 	@ApiResponses({@ApiResponse(code = 200 , message = "비밀번호 찾기 OK") , @ApiResponse(code = 500 , message = "서버에러")})
 	@PutMapping(value = "/find")
-	public ResponseEntity<?> userPasswordFind(@PathVariable("user_id") String userId , @PathVariable("user_email") String userEmail){
-		Map<String , String> map = new HashMap<>();
-		map.put("userId" , userId);
-		map.put("userEmail" , userEmail);
-		map.put("userPassword" , "랜덤");
+	public ResponseEntity<?> userPasswordFind(@RequestBody UserFindDto userFindDto){
+		System.out.println(userFindDto);
 		try {
-			UserDto userDto = userService.userFindPassword(map);
-			return new ResponseEntity<UserDto>(userDto , HttpStatus.OK);
+			UserDto userDto = userService.userFindPassword(userFindDto);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -182,11 +259,46 @@ public class UserController {
 	public ResponseEntity<?> userLike(@RequestBody UserLikeDto userLikeDto){
 		try {
 			userService.userLike(userLikeDto);
+			userService.updateAttractionLike(userLikeDto);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
+
+	@ApiOperation(value = "좋아요확인", notes = ".", response = Map.class)
+	@GetMapping("/isLike")
+	public ResponseEntity<?> isLike(@RequestParam("contentId") int contentId , @RequestParam("userId") String userId) {
+		UserLikeDto userLikeDto = new UserLikeDto();
+		userLikeDto.setUserId(userId);
+		userLikeDto.setContentId(contentId);
+		try {
+			Integer isLike = userService.isLike(userLikeDto);
+			return new ResponseEntity<Integer>(isLike , HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	@ApiOperation(value = "로그아웃", notes = "회원 정보를 담은 Token을 제거한다.", response = Map.class)
+	@GetMapping("/logout/{userId}")
+	public ResponseEntity<?> removeToken(@PathVariable("userId") String userId) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = HttpStatus.ACCEPTED;
+		try {
+			userService.deleRefreshToken(userId);
+			resultMap.put("message", SUCCESS);
+			status = HttpStatus.ACCEPTED;
+		} catch (Exception e) {
+			logger.error("로그아웃 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+	}
+
+
+
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

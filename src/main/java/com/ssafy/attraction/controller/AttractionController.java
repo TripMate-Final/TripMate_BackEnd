@@ -76,10 +76,10 @@ public class AttractionController {
     @ApiOperation(value = "관광지 검색", notes = "관광지 검색.")
     @ApiResponses({@ApiResponse(code=200, message = "관광지 검색 OK"), @ApiResponse(code=500, message = "서버에러")})
     @GetMapping("/select")
-    public ResponseEntity<?> attractionSelectOption(@RequestParam("keyword") String keyword,@RequestParam("categoryCode") int categoryCode , @RequestParam("page") int page){
+    public ResponseEntity<?> attractionSelectOption(@RequestParam("keyword") String keyword,@RequestParam("categoryCode") int categoryCode , @RequestParam("page") int page , @RequestParam("userId") String userId){
         logger.debug(keyword  + ":::" + categoryCode + ":::" + page);
         try{
-            AttractionSelectDto attractionSelectDto = new AttractionSelectDto(keyword,categoryCode , page * 15);
+            AttractionSelectDto attractionSelectDto = new AttractionSelectDto(keyword,categoryCode , page * 15 , userId);
             logger.debug("select : " + attractionSelectDto);
             List<AttractionFilterDto> list = attractionService.attractionSelectOption(attractionSelectDto);
             if(list != null && !list.isEmpty()){
@@ -95,7 +95,7 @@ public class AttractionController {
     @ApiOperation(value = "관광지 이미지 카드", notes = "관광지 상세정보를 보여줍니다.")
     @ApiResponses({@ApiResponse(code=200, message = "관광지 상세보기 OK"), @ApiResponse(code=500, message = "서버에러")})
     @GetMapping("/{contentId}")
-    public ResponseEntity<?> attractionDetail(@PathVariable("contentId") int contentId){
+    public ResponseEntity<?> attractionDetail(@PathVariable("contentId") int contentId , @RequestParam("userId") String userId){
         logger.debug("attraction detail :::" + contentId);
         try{
             AttractionDetailDto attractionDetailDto= attractionService.attractionDetail(contentId);
