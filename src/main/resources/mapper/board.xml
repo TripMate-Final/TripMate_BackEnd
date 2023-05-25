@@ -8,6 +8,7 @@
 		<result column="board_id" property="boardId"/>
 		<result column="board_title" property="boardTitle"/>
 		<result column="user_id" property="userId"/>
+		<result column="user_name" property="userName"/>
 		<result column="board_date" property="boardDate"/>
 		<result column="board_content" property="boardContent"/>
 		<result column="board_type" property="boardType"/>
@@ -22,8 +23,10 @@
 
 	<!-- 게시글 목록 -->
 	<select id="boardList" parameterType="map" resultMap="board">
-		select board_id , board_title, user_id, board_date, board_content, board_type , hit
+		select board_id , board_title, users.user_id, board_date, board_content, board_type , hit , user_name
 		from boards
+		join users
+		on boards.user_id = users.user_id
 		<trim prefix="where" suffixOverrides="and">
 			<if test="boardType != null and boardType != ''">board_type = #{boardType} and</if>
 			<if test="keyword != null and keyword != ''">board_content like concat('%', #{keyword}, '%')</if>

@@ -9,6 +9,16 @@ public class BoardDto {
     private String boardContent;
     private String boardType;
 
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     private int hit;
 
     public int getHit() {

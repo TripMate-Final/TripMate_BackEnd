@@ -16,7 +16,7 @@ public interface UserMapper {
 	void userRegist(UserDto userDto) throws SQLException;
 	UserDto userFindPassword(UserFindDto userFindDto) throws SQLException;
 	void userDelete(String userId) throws SQLException;
-	UserDto userUpdate(UserDto userDto) throws SQLException;
+	void userUpdate(UserDto userDto) throws SQLException;
 	void friendRequest(Map<String , String> map) throws SQLException;
 	void friendAccept(Map<String , String> map) throws SQLException;
 	void friendDelete(Map<String , String> map) throws SQLException;
