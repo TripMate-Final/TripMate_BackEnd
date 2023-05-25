@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface AttractionMapper {
     List<AttractionListDto> attractionListAll() throws SQLException;
-    AttractionDetailDto attractionDetail(int contentId) throws SQLException;
+    AttractionDetailDto attractionDetail(AttractionMinDto attractionMinDto) throws SQLException;
     void updateHit(int contentId) throws SQLException;
     List<AttractionFilterDto> attractionSelect(AttractionSelectDto attractionSelectDto) throws SQLException;
     List<AttractionFilterDto> attractionSelectOption(AttractionSelectDto attractionSelectDto) throws SQLException;

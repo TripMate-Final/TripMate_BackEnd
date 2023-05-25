@@ -21,8 +21,8 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
-    public AttractionDetailDto attractionDetail(int contentId) throws Exception {
-        return attractionMapper.attractionDetail(contentId);
+    public AttractionDetailDto attractionDetail(AttractionMinDto attractionMinDto) throws Exception {
+        return attractionMapper.attractionDetail(attractionMinDto);
     }
 
     @Override

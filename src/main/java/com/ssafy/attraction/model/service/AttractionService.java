@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AttractionService {
     List<AttractionListDto> attractionListAll() throws Exception;
-    AttractionDetailDto attractionDetail(int contentId) throws Exception;
+    AttractionDetailDto attractionDetail(AttractionMinDto attractionMinDto) throws Exception;
 
     void updateHit(int contentId) throws Exception;
 

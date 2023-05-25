@@ -42,8 +42,9 @@
 	</select>
 
 	<!-- 관광지 상세 -->
-	<select id="attractionDetail" parameterType="int" resultType="AttractionDetailDto">
+	<select id="attractionDetail" parameterType="AttractionMinDto" resultType="AttractionDetailDto">
 		select info.content_id, info.title, info.first_image,  info.addr1, info.zipcode, description.overview, info.latitude, info.longitude, sido.sido_name, gugun.gugun_name, category.category_name, tag.cat1_name, tag.cat2_name, tag.cat3_name, info.hit, like_cnt , recommend_id1 , recommend_id2 , recommend_id3 , recommend_id4 , recommend_id5
+		<if test="userId != null">, is_likes</if>
 		from (select * from attraction_info where content_id = #{contentId}) info
 				 left join sido on info.sido_code = sido.sido_code
 				 left join gugun on info.gugun_code = gugun.gugun_code and info.sido_code = gugun.sido_code
@@ -52,6 +53,10 @@
 				 left join attraction_tag tag on detail.cat3 = tag.cat3_code
 				 left join attraction_description description on info.content_id = description.content_id
 				 left join attraction_recommendation recommendation on info.content_id = recommendation.content_id
+		<if test="userId != null">
+			left join likes l
+			on info.content_id = l.content_id and l.user_id = #{userId}
+		</if>
 	</select>
 
 	<update id="updateHit" parameterType="int">

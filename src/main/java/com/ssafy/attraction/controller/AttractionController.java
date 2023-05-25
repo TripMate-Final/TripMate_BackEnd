@@ -97,11 +97,18 @@ public class AttractionController {
 
     @ApiOperation(value = "관광지 이미지 카드", notes = "관광지 상세정보를 보여줍니다.")
     @ApiResponses({@ApiResponse(code=200, message = "관광지 상세보기 OK"), @ApiResponse(code=500, message = "서버에러")})
-    @GetMapping("/{contentId}")
-    public ResponseEntity<?> attractionDetail(@PathVariable("contentId") int contentId , @RequestParam("userId") String userId){
+    @GetMapping("")
+    public ResponseEntity<?> attractionDetail(@RequestParam("contentId") int contentId , @RequestParam("userId") String userId){
         logger.debug("attraction detail :::" + contentId);
         try{
-            AttractionDetailDto attractionDetailDto= attractionService.attractionDetail(contentId);
+            if(userId.length() == 0){
+                userId = null;
+            }
+            AttractionMinDto attractionMinDto = new AttractionMinDto();
+            attractionMinDto.setContentId(contentId);
+            attractionMinDto.setUserId(userId);
+
+            AttractionDetailDto attractionDetailDto= attractionService.attractionDetail(attractionMinDto);
             if (attractionDetailDto != null) {
                 attractionService.updateHit(contentId);
                 return new ResponseEntity<AttractionDetailDto>(attractionDetailDto,HttpStatus.OK);
