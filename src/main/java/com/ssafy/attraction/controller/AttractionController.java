@@ -77,8 +77,11 @@ public class AttractionController {
     @ApiResponses({@ApiResponse(code=200, message = "관광지 검색 OK"), @ApiResponse(code=500, message = "서버에러")})
     @GetMapping("/select")
     public ResponseEntity<?> attractionSelectOption(@RequestParam("keyword") String keyword,@RequestParam("categoryCode") int categoryCode , @RequestParam("page") int page , @RequestParam("userId") String userId){
-        logger.debug(keyword  + ":::" + categoryCode + ":::" + page);
+        logger.debug(keyword  + ":::" + categoryCode + ":::" + page + ":::" + userId + "::");
         try{
+            if(userId.length() == 0){
+                userId = null;
+            }
             AttractionSelectDto attractionSelectDto = new AttractionSelectDto(keyword,categoryCode , page * 15 , userId);
             logger.debug("select : " + attractionSelectDto);
             List<AttractionFilterDto> list = attractionService.attractionSelectOption(attractionSelectDto);
